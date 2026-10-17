@@ -1,6 +1,6 @@
 # Rain Energy demo
-- [ ] Brand design system, shared navigation and footer
-- [ ] Home, about, services and service details
-- [ ] Projects and project details, HSE, news and articles
-- [ ] Contact forms and demo interactions
-- [ ] Desktop/mobile and link verification
+- [x] Brand design system, shared navigation and footer
+- [x] Home, about, services and service details
+- [x] Projects and project details, HSE, news and articles
+- [x] Contact forms and demo interactions
+- [x] Desktop/mobile and link verification
