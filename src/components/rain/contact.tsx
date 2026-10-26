@@ -16,49 +16,75 @@ export function ContactPage() {
   return (
     <Layout>
       <PageHero
-        title="Let’s move your project forward."
-        description="Tell us what you’re planning. Our engineers are ready to discuss the next step."
+        title="Let's build the future of energy together."
+        description="20 years of collective experience — one indigenous team ready to deliver."
       />
       <section className="section" id="quote">
         <div className="container contact-grid">
           <div>
-            <div className="eyebrow">Get in touch</div>
+            <div className="eyebrow">Get In Touch</div>
             <h2>
               A conversation is
               <br />
               where it starts.
             </h2>
             <p className="scope-heading">
-              For project enquiries, technical requirements or vendor opportunities, connect with
-              our Lagos team.
+              For project tenders, turnkey EPIC&C proposals, pipeline interventions, or LPG/CNG
+              supply agreements, connect directly with our engineering leadership in Lagos.
             </p>
             <div className="contact-details">
               {[
                 {
                   icon: Phone,
-                  title: "Call us",
-                  content: <a href="tel:+2348057699215">0805 769 9215</a>,
+                  title: "Direct telephone",
+                  content: (
+                    <div className="space-y-1">
+                      <div>
+                        <a href="tel:+2348057699215">080 5769 9215</a>
+                      </div>
+                      <div>
+                        <a href="tel:+2348037414562">080 3741 4562</a>
+                      </div>
+                    </div>
+                  ),
                 },
                 {
                   icon: Mail,
-                  title: "Email us",
+                  title: "Official email",
                   content: <a href="mailto:info@rainenergy.ng">info@rainenergy.ng</a>,
                 },
-                { icon: MapPin, title: "Head office", content: "Lagos, Nigeria" },
-                { icon: Clock, title: "Office hours", content: "Monday to Friday, 8am to 5pm" },
+                {
+                  icon: MapPin,
+                  title: "Head office",
+                  content: (
+                    <span>
+                      No. 1 Oba Sijuade Okunade Crescent,
+                      <br />
+                      Chevy View Estate, Lekki, Lagos, Nigeria
+                    </span>
+                  ),
+                },
+                {
+                  icon: Clock,
+                  title: "Office hours",
+                  content: "Monday to Friday, 8:00 AM – 5:00 PM (WAT)",
+                },
               ].map((d) => (
                 <div className="contact-detail" key={d.title}>
                   <d.icon />
                   <div>
                     <h3>{d.title}</h3>
-                    <p>{d.content}</p>
+                    <div>{d.content}</div>
                   </div>
                 </div>
               ))}
             </div>
+            <div className="mt-4 p-4 rounded-lg bg-paper border border-border text-xs text-navy font-semibold">
+              100% Nigerian-Owned • Indigenous Excellence in Oil & Gas Services
+            </div>
             <iframe
-              title="Map of Lekki, Lagos"
-              src="https://maps.google.com/maps?q=Lekki%2C%20Lagos&t=&z=12&ie=UTF8&iwloc=&output=embed"
+              title="Rain Energy Limited Headquarters, Lekki, Lagos"
+              src="https://maps.google.com/maps?q=Chevy+View+Estate+Lekki+Lagos&t=&z=13&ie=UTF8&iwloc=&output=embed"
               className="map"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"

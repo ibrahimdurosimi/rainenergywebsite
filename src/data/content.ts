@@ -2,95 +2,229 @@ import plant from "@/assets/plant-hero.jpg";
 import engineer from "@/assets/engineer.jpg";
 import pipeline from "@/assets/pipeline.jpg";
 import fabrication from "@/assets/fabrication.jpg";
+
 export const images = { plant, engineer, pipeline, fabrication };
+
+export const company = {
+  name: "Rain Energy Limited",
+  legalName: "Rain Energy Ltd",
+  shortName: "Rain Energy",
+  tagline: "Indigenous Excellence in Oil & Gas Services",
+  subtitle: "Bridging decades of expertise with the future of energy.",
+  established: "2026",
+  experienceHeadline: "20+ Years Founding Team Experience",
+  ownership: "100% Nigerian-Owned",
+  workforce: "100% Indigenous Technical Professionals",
+  address: "No. 1 Oba Sijuade Okunade Crescent, Chevy View Estate, Lekki, Lagos, Nigeria",
+  phones: ["080 5769 9215", "080 3741 4562"],
+  email: "info@rainenergy.ng",
+  vision:
+    "To be West Africa's most trusted energy services partner, recognized for pioneering sustainable local engineering solutions and executing complex energy projects safely and flawlessly.",
+  corporateVision:
+    "To become and remain a top-tier energy service delivery company that maximizes the much-needed value for local and international industry stakeholders, utilizing cost-effective and quality execution processes.",
+  mission:
+    "To achieve our vision by identifying solutions to existing problems in the oil, gas, and energy value chain. We deploy an experienced technical workforce and promptly take the right steps to realize client objectives in a timely manner, with an unwavering attention to safety and quality.",
+  pillars: [
+    {
+      title: "Reliability",
+      desc: "Unmatched dependability and disciplined execution on every commitment.",
+    },
+    {
+      title: "Excellence",
+      desc: "Top-tier engineering and craftsmanship adhering to global standards.",
+    },
+    {
+      title: "Integrity",
+      desc: "Transparent governance, full statutory compliance, and ethical partnerships.",
+    },
+    {
+      title: "Innovation",
+      desc: "Pioneering sustainable local engineering solutions for the energy transition.",
+    },
+  ],
+  commitments: ["Safety-First Culture", "Expert Leadership", "Community Impact"],
+  compliance: [
+    {
+      code: "PENCOM",
+      title: "National Pension Commission",
+      value: "Compliant",
+      status: "Pension Certified",
+    },
+    {
+      code: "NSITF",
+      title: "Nigeria Social Insurance Trust Fund",
+      value: "Compliant",
+      status: "Employees Protected",
+    },
+    {
+      code: "ITF",
+      title: "Industrial Training Fund",
+      value: "Compliant",
+      status: "Capacity Building",
+    },
+    {
+      code: "BPP",
+      title: "Bureau of Public Procurement",
+      value: "Registered Contractor",
+      status: "Federal Service Provider",
+    },
+  ],
+  hseFramework: [
+    {
+      code: "COMPLY",
+      title: "Statutory Compliance",
+      desc: "Full compliance with the Occupational Health, Safety and Environmental Act.",
+    },
+    {
+      code: "PLAN",
+      title: "CASHES Policies",
+      desc: "Project planning and field execution strictly aligned with CASHES standards.",
+    },
+    {
+      code: "ANALYZE",
+      title: "Hazard Identification",
+      desc: "Rigorous hazard analysis and proactive barrier controls at every phase.",
+    },
+    {
+      code: "CERTIFY",
+      title: "Medical Clearance",
+      desc: "Mandatory medical fitness certification required before site admission.",
+    },
+    {
+      code: "PROTECT",
+      title: "Welfare & Environment",
+      desc: "Unwavering focus on workforce welfare, ecological protection, and zero spills.",
+    },
+  ],
+  pipelineInterventions: [
+    { name: "Hot Tapping", desc: "Live line branch intervention without process shutdown." },
+    {
+      name: "Stopple",
+      desc: "High-pressure line isolation for scheduled and emergency maintenance.",
+    },
+    {
+      name: "Mechanical Clamps",
+      desc: "Rapid leak containment and high-integrity structural repairs.",
+    },
+    {
+      name: "Cofferdams",
+      desc: "Safe, dry work-zones in flooded swamp and seasonal marsh terrains.",
+    },
+    {
+      name: "HDD Crossing",
+      desc: "Horizontal directional drilling for river, canal, and road crossings.",
+    },
+    {
+      name: "Welding & NDT",
+      desc: "Certified weld procedures with 100% non-destructive examination.",
+    },
+  ],
+  productionFacilities: [
+    "Flow station upgrades and engineered tie-ins",
+    "Pressure vessels and separator maintenance",
+    "Rotating equipment overhaul and precision alignment",
+    "Flare systems inspection, smokeless tips, and ignition upgrades",
+    "Gas receiving manifolds and high-pressure compressor stations",
+    "Gas dehydration, filtration and conditioning units",
+    "Custody transfer fiscal metering systems",
+  ],
+};
+
 export const services = [
   {
     slug: "engineering",
-    name: "Engineering",
+    name: "Engineering & EPIC&C",
     description:
-      "From front-end design to detailed engineering, built around your operational needs.",
+      "Turnkey front-end design, detailed engineering, and integrated EPIC&C execution tailored to operational demands.",
     icon: "engineering",
     scope: [
-      "Project planning and management",
-      "Process engineering",
-      "Structural engineering",
-      "Mechanical engineering",
-      "Electrical and instrumentation engineering",
-      "Pipeline engineering and management",
+      "Flow station upgrades and engineered tie-ins",
+      "Process, mechanical, and structural engineering",
+      "Gas receiving manifolds and compressor systems",
+      "Gas dehydration, conditioning, and fiscal metering",
+      "Delta-V DCS upgrades and instrumentation design",
+      "Turnkey EPIC&C project management",
     ],
     image: engineer,
   },
   {
     slug: "procurement",
-    name: "Procurement",
-    description: "The right equipment, from trusted vendors, delivered where and when you need it.",
+    name: "Procurement & Supply Chain",
+    description:
+      "Strategic sourcing of certified long-lead equipment, valves, and bulk materials with full traceability.",
     icon: "procurement",
     scope: [
-      "Sourcing of materials and equipment",
-      "Vendor qualification",
-      "Expediting and logistics",
-      "Customs clearing",
-      "Quality inspection",
+      "Long-lead and bulk materials procurement",
+      "OEM equipment, rotating machinery, and spares",
+      "Vendor qualification and strict QA/QC compliance",
+      "Expediting, shipping, and customs clearance in Nigeria",
+      "Material test certifications (MTCs) and factory inspection",
     ],
     image: plant,
   },
   {
     slug: "fabrication",
-    name: "Fabrication",
+    name: "Precision Fabrication",
     description:
-      "Precision-built steel structures, piping and modules that stand up to demanding conditions.",
+      "High-tolerance workshop and yard fabrication of piping spools, structural steel, and process skids.",
     icon: "fabrication",
     scope: [
-      "Piping spools",
-      "Structural steel",
-      "Skids and modules",
-      "Tanks and vessels",
-      "Welding and non-destructive testing",
+      "High-pressure piping spools and manifold headers",
+      "Structural steelwork, access platforms, and walkways",
+      "Modular equipment skids and process assemblies",
+      "Storage tanks, pressure vessels, and enclosures",
+      "Certified welding, heat treatment, and NDT verification",
     ],
     image: fabrication,
   },
   {
     slug: "construction-installation",
-    name: "Construction & Installation",
+    name: "Pipeline Works & Field Installation",
     description:
-      "Safe, coordinated field execution for pipelines, facilities and critical infrastructure.",
+      "Specialized pipeline interventions, emergency repairs, and robust civil-structural execution in challenging terrain.",
     icon: "construction",
     scope: [
-      "Pipeline construction",
-      "Facility and equipment installation",
-      "Mechanical, electrical and instrumentation works",
-      "Civil works",
+      "Pipeline construction, trenching, stringing, and backfilling",
+      "Hot tapping (live-line intervention without shutdown)",
+      "Stopple isolation and mechanical repair clamps",
+      "Cofferdams for dry work-zones in flooded swamp terrain",
+      "Horizontal Directional Drilling (HDD) crossings",
+      "Equipment foundations, roadworks, and industrial shelters",
     ],
     image: pipeline,
   },
   {
     slug: "commissioning",
-    name: "Commissioning Services",
-    description: "Thorough testing and start-up support for a confident transition into operation.",
+    name: "Commissioning & E&I",
+    description:
+      "Rigorous pre-commissioning, hydrostatic testing, electrical systems, and start-up uptime assurance.",
     icon: "commissioning",
     scope: [
-      "Pre-commissioning checks",
-      "Flushing, pressure and leak testing",
-      "Start-up support",
-      "Handover documentation",
+      "Pre-commissioning walk-downs and punch-list resolution",
+      "Flushing, hydrostatic pressure, and leak containment testing",
+      "MCC, switchboard, and generator commissioning",
+      "Field instrumentation calibration and loop checks",
+      "Controlled facility start-up and complete handover packages",
     ],
     image: engineer,
   },
   {
     slug: "lpg-cng",
-    name: "LPG / CNG",
+    name: "Gas Distribution & Processing (LPG / CNG)",
     description:
-      "Integrated gas infrastructure, from storage and bottling to refuelling and distribution.",
+      "Integrated natural gas infrastructure and nationwide distribution driving Nigeria's cleaner energy transition.",
     icon: "gas",
     scope: [
-      "LPG storage and bottling plants",
-      "CNG refuelling stations",
-      "Gas distribution systems",
-      "Maintenance and upgrades",
+      "LPG storage, bottling plants, and mounded bullet tanks",
+      "CNG compression, dispensing, and daughter stations",
+      "Nationwide distribution via certified tanker fleet",
+      "Natural gas processing, filtration, and pressure regulation",
+      "Turnaround maintenance, OEM parts, and operations support",
     ],
     image: plant,
   },
 ];
+
 export const projects = [
   {
     slug: "gas-pipeline-niger-delta",
@@ -102,12 +236,12 @@ export const projects = [
     image: pipeline,
     duration: "9 months",
     overview:
-      "An integrated pipeline construction programme connecting gas supply infrastructure across the Niger Delta. This illustrative project demonstrates coordinated civil, mechanical and commissioning delivery.",
+      "An integrated pipeline construction programme connecting gas supply infrastructure across the Niger Delta. This illustrative project demonstrates coordinated civil, mechanical, swamp cofferdam installation, and commissioning delivery.",
     scope: [
-      "Route survey and right-of-way preparation",
-      "Pipeline welding and non-destructive testing",
-      "Trenching, laying and backfilling",
-      "Hydrostatic testing and commissioning",
+      "Route survey and right-of-way preparation in swamp terrain",
+      "Pipeline welding, radiography, and non-destructive testing",
+      "Trenching, swamp cofferdam dewatering, laying and backfilling",
+      "Hydrostatic testing, caliper pigging, and commissioning",
     ],
   },
   {
@@ -120,12 +254,12 @@ export const projects = [
     image: plant,
     duration: "8 months",
     overview:
-      "A purpose-designed LPG storage and bottling facility, bringing together engineering, equipment installation and safe operational readiness.",
+      "A purpose-designed LPG storage and bottling facility, bringing together turnkey engineering, equipment installation, gas piping, and safe operational readiness.",
     scope: [
-      "Storage vessel and piping installation",
-      "Bottling line integration",
-      "Fire protection and safety systems",
-      "Testing and operator handover",
+      "Storage vessel, pumps, and manifold piping installation",
+      "Automated carousel bottling line integration",
+      "Deluge fire protection and gas leak detection safety systems",
+      "Pressure testing, inerting, and operator handover",
     ],
   },
   {
@@ -138,12 +272,12 @@ export const projects = [
     image: engineer,
     duration: "6 months",
     overview:
-      "A carefully planned upgrade to production facilities, with engineered tie-ins designed to minimise disruption and improve operational reliability.",
+      "A carefully planned upgrade to production facilities, with engineered tie-ins designed to minimise disruption and improve operational reliability across aging assets.",
     scope: [
-      "Facility assessment and detailed design",
-      "Process and piping modifications",
-      "Instrumentation integration",
-      "Controlled tie-ins and start-up support",
+      "Facility assessment and 3D detailed piping design",
+      "Process separator and piping manifold modifications",
+      "Delta-V DCS and field instrumentation integration",
+      "Controlled hot tie-ins and commissioning support",
     ],
   },
   {
@@ -156,12 +290,12 @@ export const projects = [
     image: plant,
     duration: "5 months",
     overview:
-      "An illustrative CNG refuelling station supporting the growing demand for cleaner transport fuels in Lagos.",
+      "An illustrative CNG refuelling station supporting the growing national demand for cleaner and cost-effective transport fuels in metropolitan Lagos.",
     scope: [
-      "Station layout and equipment specification",
-      "Compression and dispensing systems",
-      "Electrical and safety installation",
-      "Pressure testing and commissioning",
+      "Station layout, blast walls, and equipment specification",
+      "Gas compression, cascade storage, and dual-hose dispensing systems",
+      "Electrical MCC, emergency shutdown (ESD), and safety installation",
+      "Pressure testing, safety certification, and commercial commissioning",
     ],
   },
   {
@@ -174,12 +308,12 @@ export const projects = [
     image: fabrication,
     duration: "10 months",
     overview:
-      "Fabrication and installation of storage infrastructure with a focus on material traceability, weld quality and long-term integrity.",
+      "Fabrication and installation of hydrocarbon storage infrastructure with an uncompromising focus on material traceability, weld quality, and long-term asset integrity.",
     scope: [
-      "Tank plate preparation and fabrication",
-      "Structural steel and piping works",
-      "Weld inspection and non-destructive testing",
-      "Tank testing and installation",
+      "Tank plate cutting, rolling, and automated seam welding",
+      "Structural steel platforms, stair towers, and interconnecting pipe racks",
+      "Weld inspection, 100% radiographic and magnetic particle testing",
+      "Hydrostatic tank testing, grit blasting, and protective coating",
     ],
   },
   {
@@ -192,15 +326,16 @@ export const projects = [
     image: pipeline,
     duration: "4 months",
     overview:
-      "A structured assessment and repair programme to support the continued safe operation of existing pipeline assets.",
+      "A structured assessment and rapid-repair intervention programme utilizing mechanical repair clamps and hot-tapping techniques to ensure continuous safe pipeline operation.",
     scope: [
-      "Condition assessment and inspection",
-      "Corrosion and integrity analysis",
-      "Repair planning and execution",
-      "Verification and technical reporting",
+      "Intelligent pigging data analysis and condition assessment",
+      "Corrosion mapping and structural integrity analysis",
+      "High-pressure mechanical clamp installation and repair execution",
+      "Cathodic protection verification and regulatory compliance reporting",
     ],
   },
 ];
+
 export const news = [
   {
     slug: "pipeline-milestone",
@@ -253,30 +388,34 @@ export const news = [
     ],
   },
 ];
+
 export const stats = [
   { value: 15, suffix: "+", label: "Years of project delivery" },
   { value: 40, suffix: "+", label: "Projects delivered" },
   { value: 6, suffix: "", label: "Integrated service lines" },
   { value: 100, suffix: "%", label: "Nigerian workforce" },
 ];
+
 export const team = [
   { initials: "MD", role: "Managing Director" },
   { initials: "HE", role: "Head of Engineering" },
   { initials: "HP", role: "Head of Projects" },
   { initials: "HM", role: "HSE Manager" },
 ];
+
 export const sectors = [
   "Upstream operators",
   "Pipelines & midstream",
   "Downstream, LPG & CNG",
   "Industrial facilities",
 ];
+
 export function pageHead(title: string, description: string, path: string) {
   return {
     meta: [
-      { title: `${title} | Rain Energy` },
+      { title: `${title} | Rain Energy Limited` },
       { name: "description", content: description },
-      { property: "og:title", content: `${title} | Rain Energy` },
+      { property: "og:title", content: `${title} | Rain Energy Limited` },
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
       { property: "og:url", content: path },

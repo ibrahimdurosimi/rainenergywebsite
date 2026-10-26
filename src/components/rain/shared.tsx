@@ -29,7 +29,8 @@ import {
   FileCheck2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { services, projects, news, stats, images } from "@/data/content";
+import { services, projects, news, stats, images, company } from "@/data/content";
+
 export const iconMap = {
   engineering: DraftingCompass,
   procurement: PackageSearch,
@@ -38,20 +39,46 @@ export const iconMap = {
   commissioning: Gauge,
   gas: Flame,
 };
+
+export function RELogoMark({
+  className = "w-9 h-9",
+  color = "#FFFFFF",
+  accentColor = "#C6A15B",
+}: {
+  className?: string;
+  color?: string;
+  accentColor?: string;
+}) {
+  return (
+    <svg
+      viewBox="0 0 100 100"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+    >
+      {/* R Stem & Upper Loop */}
+      <path
+        d="M16 16H48C59 16 67 24 67 35C67 44.5 60.5 52.5 50.5 54L68 84H52L36 56H28V84H16V16ZM28 28V44H47C52 44 55 40.5 55 36C55 31.5 52 28 47 28H28Z"
+        fill={color}
+      />
+      {/* Dynamic interlocking E arms & lower diagonal matching R leg angle */}
+      <path
+        d="M60 20H86V30H60V20ZM56 40H84V50H56V40ZM50 63L63 84H77L64 63H50Z"
+        fill={accentColor}
+      />
+    </svg>
+  );
+}
+
 export function Wordmark() {
   return (
-    <a href="/" className="brand" aria-label="Rain Energy home">
-      <svg viewBox="0 0 44 42" fill="none" aria-hidden="true">
-        <path
-          d="M3 25L14 13L23 20L35 6M11 34L22 23L31 30L42 17"
-          stroke="currentColor"
-          strokeWidth="4"
-          strokeLinecap="square"
-        />
-      </svg>
-      <span>
-        RAIN ENERGY<small>ENGINEERING EXCELLENCE</small>
-      </span>
+    <a href="/" className="brand" aria-label="Rain Energy Limited Home">
+      <RELogoMark className="w-10 h-10" color="#FFFFFF" accentColor="#C6A15B" />
+      <div className="brand-titles">
+        <span className="brand-name">RAIN</span>
+        <span className="brand-sub">ENERGY LIMITED</span>
+      </div>
     </a>
   );
 }
@@ -59,9 +86,6 @@ const nav: [string, string][] = [
   ["Home", "/"],
   ["About", "/about"],
   ["Services", "/services"],
-  ["Projects", "/projects"],
-  ["HSE & Quality", "/hse-quality"],
-  ["News", "/news"],
   ["Contact", "/contact"],
 ];
 export function QuoteButton({ outline = false }: { outline?: boolean }) {
@@ -119,7 +143,7 @@ export function Layout({ children }: { children: ReactNode }) {
           <div className="utility-left">
             <a href="tel:+2348057699215">
               <Phone />
-              0805 769 9215
+              080 5769 9215
             </a>
             <a href="mailto:info@rainenergy.ng">
               <Mail />
@@ -127,10 +151,12 @@ export function Layout({ children }: { children: ReactNode }) {
             </a>
             <span>
               <MapPin />
-              Lagos, Nigeria
+              Chevy View Estate, Lekki, Lagos
             </span>
           </div>
-          <div className="utility-right">Indigenous expertise. International standards.</div>
+          <div className="utility-right">
+            Indigenous Excellence in Oil & Gas • 100% Nigerian-Owned • 20+ Years Founder Experience
+          </div>
         </div>
       </div>
       <header className="site-header">
@@ -226,8 +252,9 @@ export function Layout({ children }: { children: ReactNode }) {
             <div>
               <Wordmark />
               <p>
-                An indigenous company covering operations within the oil and gas sector, with a 100%
-                Nigerian workforce.
+                Rain Energy Ltd is a fully indigenous Nigerian oil and gas servicing company. 100%
+                Nigerian-owned and powered by skilled indigenous professionals with 20+ years of
+                founding-team experience across the entire energy value chain.
               </p>
               <div className="socials">
                 <a
@@ -276,9 +303,13 @@ export function Layout({ children }: { children: ReactNode }) {
             <div>
               <h3>Get in touch</h3>
               <ul>
-                <li>Lagos, Nigeria</li>
+                <li>No. 1 Oba Sijuade Okunade Crescent,</li>
+                <li>Chevy View Estate, Lekki, Lagos</li>
                 <li>
-                  <a href="tel:+2348057699215">0805 769 9215</a>
+                  <a href="tel:+2348057699215">080 5769 9215</a>
+                </li>
+                <li>
+                  <a href="tel:+2348037414562">080 3741 4562</a>
                 </li>
                 <li>
                   <a href="mailto:info@rainenergy.ng">info@rainenergy.ng</a>
@@ -288,8 +319,8 @@ export function Layout({ children }: { children: ReactNode }) {
             </div>
           </div>
           <div className="footer-bottom">
-            <span>© 2026 Rain Energy. All rights reserved.</span>
-            <span>Website demo by SMEStudio · Built for what’s next.</span>
+            <span>© 2026 Rain Energy Limited. All rights reserved.</span>
+            <span>Indigenous Excellence in Oil & Gas Services • West Africa</span>
           </div>
         </div>
       </footer>
@@ -536,6 +567,39 @@ export function NotFound({
     </Layout>
   );
 }
+export function ComplianceGrid() {
+  return (
+    <div className="compliance-grid">
+      {company.compliance.map((c) => (
+        <div className="compliance-card" key={c.code}>
+          <div>
+            <div className="compliance-badge">{c.code}</div>
+            <div className="compliance-val">{c.value}</div>
+          </div>
+          <div className="compliance-desc">
+            <strong className="text-navy">{c.title}</strong>
+            <div>{c.status}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function HseFrameworkGrid() {
+  return (
+    <div className="hse-framework-grid">
+      {company.hseFramework.map((item) => (
+        <div className="hse-framework-card" key={item.code}>
+          <span className="hse-step-pill">{item.code}</span>
+          <h4 className="hse-step-title">{item.title}</h4>
+          <p className="hse-step-desc">{item.desc}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export {
   ArrowUpRight,
   ArrowRight,
@@ -550,4 +614,5 @@ export {
   Phone,
   Mail,
   MapPin,
+  company,
 };

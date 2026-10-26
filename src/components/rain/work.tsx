@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { services, projects, sectors, images } from "@/data/content";
+import { services, projects, sectors, images, company } from "@/data/content";
 import {
   Layout,
   PageHero,
@@ -85,7 +85,7 @@ export function ServicePage({ slug }: { slug?: string }) {
               close coordination to meet the technical, safety and quality requirements of each
               project.
             </p>
-            <h3 className="scope-heading">What we do</h3>
+            <h3 className="scope-heading">Core Scope of Delivery</h3>
             <ul className="scope-list">
               {service.scope.map((s) => (
                 <li key={s}>
@@ -94,6 +94,34 @@ export function ServicePage({ slug }: { slug?: string }) {
                 </li>
               ))}
             </ul>
+
+            {service.slug === "construction-installation" && (
+              <div className="mt-8">
+                <h3 className="scope-heading">Specialized Pipeline Interventions</h3>
+                <div className="pipeline-tech-grid">
+                  {company.pipelineInterventions.map((p) => (
+                    <div className="pipeline-tech-card" key={p.name}>
+                      <h4>{p.name}</h4>
+                      <p>{p.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {service.slug === "engineering" && (
+              <div className="mt-8">
+                <h3 className="scope-heading">Turnkey Oil & Gas Production Facilities</h3>
+                <ul className="scope-list">
+                  {company.productionFacilities.map((f) => (
+                    <li key={f}>
+                      <CheckCircle2 />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
           <img
             src={service.image}
@@ -105,15 +133,15 @@ export function ServicePage({ slug }: { slug?: string }) {
         </div>
       </section>
       <DeliverySteps />
-      <section className="section">
+      <section className="section section-muted">
         <div className="container">
           <SectionHeading
-            eyebrow="Capability in practice"
-            title="Related sample projects."
-            href="/projects"
-            link="All projects"
+            eyebrow="Work With Us"
+            title="Have an engineering or facility requirement?"
+            description="Our technical team is ready to review your project scope, engineering requirements, or maintenance schedule."
+            href="/contact#quote"
+            link="Request technical consultation"
           />
-          <ProjectCards items={items} />
         </div>
       </section>
     </Layout>

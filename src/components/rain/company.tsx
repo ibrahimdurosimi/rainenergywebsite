@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { images, team } from "@/data/content";
+import { images, team, company } from "@/data/content";
 import {
   Layout,
   PageHero,
@@ -12,139 +12,160 @@ import {
   Leaf,
   FileCheck2,
   ArrowUpRight,
+  ComplianceGrid,
+  HseFrameworkGrid,
 } from "./shared";
-import { AlertTriangle, HardHat, ClipboardCheck, RefreshCw, Download } from "lucide-react";
+import {
+  AlertTriangle,
+  HardHat,
+  ClipboardCheck,
+  RefreshCw,
+  Download,
+  Building2,
+  Briefcase,
+  Sparkles,
+} from "lucide-react";
+
 export function AboutPage() {
   return (
     <Layout>
       <PageHero
-        title="Built in Nigeria. Built on expertise."
-        description="An indigenous partner for the energy infrastructure that moves our nation forward."
+        title="Indigenous Excellence in Oil & Gas Services"
+        description="Bridging decades of expertise with the future of energy. 100% Nigerian-owned and operated."
         image={images.engineer}
       />
+
+      {/* Corporate Overview Split */}
       <section className="section">
         <div className="container split">
           <div className="prose">
-            <div className="eyebrow">Our story</div>
+            <div className="eyebrow">Who We Are</div>
             <h2>
-              Our people. Your project.
-              <br />A shared ambition.
+              New company.
+              <br />
+              20+ years founder expertise.
             </h2>
             <p>
-              Rain Energy is a proudly Nigerian company with a 100% local workforce and deep-rooted
-              expertise in both upstream and downstream oil and gas operations.
+              Rain Energy Ltd is a fully indigenous Nigerian oil and gas servicing company. It is
+              100% Nigerian-owned and powered by skilled indigenous professionals.
             </p>
             <p>
-              We provide front-end engineering, detailed engineering, procurement, fabrication,
-              field construction and commissioning services, and deliver value in any phase of a
-              project.
+              A newly established company built on 20+ years of founding-team experience, delivering
+              proven success and operational excellence across the entire energy value chain. We
+              provide end-to-end solutions from turnkey EPIC&C to high-risk pipeline maintenance and
+              nationwide LPG / CNG distribution.
             </p>
+
             <div className="facts">
-              <h3>Company at a glance</h3>
+              <h3>Corporate Credentials</h3>
               <dl>
                 <div>
-                  <dt>Head office</dt>
-                  <dd>Lagos, Nigeria</dd>
+                  <dt>Company Name</dt>
+                  <dd>Rain Energy Limited</dd>
                 </div>
                 <div>
-                  <dt>Registration number</dt>
-                  <dd>RC: to be added</dd>
+                  <dt>Headquarters</dt>
+                  <dd>Chevy View Estate, Lekki, Lagos</dd>
+                </div>
+                <div>
+                  <dt>Ownership</dt>
+                  <dd>100% Nigerian-Owned</dd>
+                </div>
+                <div>
+                  <dt>Founding Experience</dt>
+                  <dd>20+ Years Industry Track Record</dd>
                 </div>
                 <div>
                   <dt>Workforce</dt>
-                  <dd>100% Nigerian</dd>
+                  <dd>100% Indigenous Technical Professionals</dd>
                 </div>
               </dl>
             </div>
           </div>
           <img
             src={images.pipeline}
-            alt="Local engineers inspecting pipeline infrastructure"
+            alt="Rain Energy engineers on pipeline site in Nigeria"
             width={1536}
             height={1024}
             loading="lazy"
           />
         </div>
       </section>
+
+      {/* Vision & Mission Band */}
       <section className="section dark-band">
         <div className="container split">
           <div>
-            <div className="eyebrow">Our vision</div>
+            <div className="eyebrow">Our Vision</div>
             <h2>
-              Exceptional value.
+              Pioneering sustainable
               <br />
-              Beyond boundaries.
+              local energy solutions.
             </h2>
-            <p>
-              To become and remain a top-tier energy service delivery company, recognised for
-              delivering exceptional value across local and international markets within the oil,
-              gas and energy sectors.
-            </p>
+            <p className="mt-4 text-base leading-relaxed">{company.vision}</p>
+            <p className="mt-3 text-sm opacity-80">{company.corporateVision}</p>
           </div>
           <div>
-            <div className="eyebrow">Our mission</div>
+            <div className="eyebrow">Our Mission</div>
             <h2>
-              Real challenges.
+              Flawless execution.
               <br />
-              Reliable solutions.
+              Uncompromising safety.
             </h2>
-            <p>
-              To identify and address real challenges within the oil, gas and energy value chains
-              through dedicated, innovative solutions, with an experienced technical workforce, a
-              priority on safety, and quality that consistently delivers value and reliability.
-            </p>
+            <p className="mt-4 text-base leading-relaxed">{company.mission}</p>
           </div>
         </div>
       </section>
+
+      {/* Brand Values (from Brand Guidelines 2026) */}
       <section className="section section-muted">
         <div className="container">
-          <SectionHeading eyebrow="What guides us" title="Values that show up on site." />
+          <SectionHeading
+            eyebrow="Our Values"
+            title="A foundation built for trust and visibility."
+            description="Our four core values guide every interaction, engineering review, and field execution."
+          />
           <div className="values-grid">
-            {[
-              {
-                icon: ShieldCheck,
-                title: "Safety",
-                text: "Protecting people, assets and the environment in every decision.",
-              },
-              {
-                icon: Award,
-                title: "Quality",
-                text: "Disciplined processes and work that meets demanding standards.",
-              },
-              {
-                icon: CheckCircle2,
-                title: "Integrity",
-                text: "Honest communication, accountability and dependable partnerships.",
-              },
-              {
-                icon: Users,
-                title: "Local capability",
-                text: "Investing in Nigerian skills and building lasting local expertise.",
-              },
-            ].map((v) => (
-              <div className="value-card" key={v.title}>
-                <v.icon />
-                <h3>{v.title}</h3>
-                <p>{v.text}</p>
+            {company.pillars.map((pillar) => (
+              <div className="value-card" key={pillar.title}>
+                <Award />
+                <h3>{pillar.title}</h3>
+                <p>{pillar.desc}</p>
               </div>
             ))}
           </div>
+
+          <div className="mt-10 p-6 bg-white rounded-xl border border-border flex flex-wrap items-center justify-between gap-4">
+            <div className="font-semibold text-navy text-sm">Core Cultural Pillars:</div>
+            <div className="flex flex-wrap gap-3">
+              {company.commitments.map((c) => (
+                <span
+                  key={c}
+                  className="px-4 py-1.5 rounded-full bg-sand-gold/15 text-navy font-bold text-xs uppercase tracking-wider border border-sand-gold/30"
+                >
+                  {c}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
-      <section className="section">
+
+      {/* Leadership Section */}
+      <section className="section section-muted">
         <div className="container">
           <SectionHeading
             eyebrow="Our leadership"
             title="People behind the delivery."
-            description="Leadership profiles will be confirmed with the Rain Energy team before the full site launches."
+            description="Our multidisciplinary management team brings together two decades of upstream exploration, facility engineering, and gas logistics experience."
           />
           <div className="values-grid">
             {team.map((t) => (
               <div className="value-card" key={t.role}>
                 <div className="team-avatar">{t.initials}</div>
-                <h3>Name to be confirmed</h3>
-                <p>{t.role}</p>
-                <span className="sample-tag">Sample</span>
+                <h3>{t.role}</h3>
+                <p className="text-xs text-muted-ink">Rain Energy Executive Leadership</p>
+                <span className="sample-tag mt-2">Executive</span>
               </div>
             ))}
           </div>
@@ -153,123 +174,93 @@ export function AboutPage() {
     </Layout>
   );
 }
-const commitments = [
-  {
-    icon: AlertTriangle,
-    title: "Risk assessment before every job",
-    text: "Understand hazards, agree controls and review conditions before work begins.",
-  },
-  {
-    icon: HardHat,
-    title: "Trained and certified personnel",
-    text: "Equip our workforce with the knowledge and competence to work safely.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Protective equipment at all times",
-    text: "Use appropriate PPE and maintain it to the required standard.",
-  },
-  {
-    icon: ClipboardCheck,
-    title: "Incident reporting and review",
-    text: "Encourage transparent reporting and turn lessons into meaningful action.",
-  },
-  {
-    icon: Leaf,
-    title: "Environmental protection",
-    text: "Manage waste, prevent spills and minimise the impact of our operations.",
-  },
-  {
-    icon: RefreshCw,
-    title: "Continuous improvement",
-    text: "Review performance, share learning and raise our standards every day.",
-  },
-];
+
 export function HsePage() {
-  const [toast, setToast] = useState(false);
-  const download = () => {
-    setToast(true);
-    window.setTimeout(() => setToast(false), 4000);
+  const [toast, setToast] = useState<string | null>(null);
+
+  const showToast = (message: string) => {
+    setToast(message);
+    window.setTimeout(() => setToast(null), 4000);
   };
+
   return (
     <Layout>
       <PageHero
-        title="Safety isn’t a step. It’s our standard."
-        description="A disciplined approach to health, safety, the environment and quality — throughout the project lifecycle."
+        title="Safety is Non-Negotiable."
+        description="Health, Safety and Environment underpin every decision at Rain Energy. We embed compliance and vigilance into every project."
         image={images.engineer}
       />
+
+      {/* 5-Step HSE Framework */}
       <section className="section">
         <div className="container">
           <SectionHeading
-            eyebrow="Our policy"
-            title="Everyone protected. Every phase."
-            description="We prioritise safety, integrating comprehensive risk management to protect all stakeholders and the environment in every phase of our work."
+            eyebrow="CASHES Framework"
+            title="Five pillars of safe project delivery."
+            description="Every assignment adheres to the five core standards defined in our corporate HSE policy."
           />
-          <div className="services-grid">
-            {commitments.map((c) => (
-              <div className="service-card" key={c.title}>
-                <c.icon className="service-icon" />
-                <h3>{c.title}</h3>
-                <p>{c.text}</p>
-              </div>
-            ))}
-          </div>
+          <HseFrameworkGrid />
         </div>
       </section>
+
+      {/* Illustrative Performance */}
       <section className="section dark-band">
         <div className="container">
-          <div className="eyebrow">Illustrative safety performance</div>
-          <div className="safety-stats">
+          <div className="eyebrow">Safety performance</div>
+          <h2>Zero incidents. Absolute accountability.</h2>
+          <div className="safety-stats mt-6">
             {[
-              ["0", "Lost-time incidents"],
-              ["250,000+", "Safe man-hours"],
-              ["100%", "Toolbox talk compliance"],
+              ["0", "Lost-time injuries (LTI) target"],
+              ["250,000+", "Safe man-hours milestone"],
+              ["100%", "Toolbox talk & permit-to-work compliance"],
             ].map(([v, l]) => (
               <div className="safety-stat" key={l}>
                 <strong>{v}</strong>
                 <p>{l}</p>
-                <span className="sample-tag">Sample</span>
               </div>
             ))}
           </div>
         </div>
       </section>
+
+      {/* Compliance & Assurance */}
       <section className="section section-muted">
         <div className="container">
           <SectionHeading
-            eyebrow="Compliance & assurance"
-            title="Certificates and registrations."
-            description="Verified certificates and registrations will be added to the full website following client approval."
+            eyebrow="Statutory Assurance"
+            title="Corporate Certifications & Registrations."
+            description="Rain Energy maintains up-to-date compliance across Nigerian tax, pension, labor, and procurement agencies."
           />
-          <div className="values-grid">
-            {[
-              "Quality management certificate",
-              "HSE management certificate",
-              "Industry registration",
-              "Regulatory permit",
-            ].map((c) => (
-              <div className="value-card" key={c}>
-                <FileCheck2 />
-                <h3>{c}</h3>
-                <span className="sample-tag">To be added</span>
-              </div>
-            ))}
-          </div>
-          <div className="download-row">
-            <Button variant="navyOutline" onClick={download}>
-              <Download />
-              HSE Policy (PDF)
+          <ComplianceGrid />
+
+          <div className="download-row mt-8">
+            <Button asChild variant="navyOutline">
+              <a
+                href="/assets/aistudio/Rain_Energy_Company_Profile_141b3416.pdf"
+                download="Rain_Energy_Company_Profile_2026.pdf"
+                onClick={() => showToast("Downloading Rain Energy Company Profile PDF...")}
+              >
+                <Download />
+                Company Profile (PDF)
+              </a>
             </Button>
-            <Button variant="navyOutline" onClick={download}>
-              <Download />
-              Company Profile (PDF)
+            <Button asChild variant="navyOutline">
+              <a
+                href="/assets/aistudio/Rain_Energy_Limited__Brand_Guidelines_2026_5ecc235b.pdf"
+                download="Rain_Energy_Brand_Guidelines_2026.pdf"
+                onClick={() => showToast("Downloading Rain Energy Brand Guidelines PDF...")}
+              >
+                <Download />
+                Brand Guidelines 2026 (PDF)
+              </a>
             </Button>
           </div>
         </div>
       </section>
+
       {toast && (
         <div className="toast" role="status">
-          Document available in the full site.
+          {toast}
         </div>
       )}
     </Layout>
