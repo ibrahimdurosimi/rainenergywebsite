@@ -1,6 +1,211 @@
-import { useEffect, useState, type FormEvent } from 'react';
-import { Button } from '@/components/ui/button';
-import { services } from '@/data/content';
-import { Layout, PageHero, Phone, Mail, MapPin, Clock, CheckCircle2, ArrowUpRight } from './shared';
-export function ContactPage(){const [tab,setTab]=useState('quote');const [submitted,setSubmitted]=useState(false);useEffect(()=>{if(window.location.hash==='#quote')setTab('quote')},[]);const submit=(e:FormEvent<HTMLFormElement>)=>{e.preventDefault();if(e.currentTarget.checkValidity())setSubmitted(true);else e.currentTarget.reportValidity()};return <Layout><PageHero title="Let’s move your project forward." description="Tell us what you’re planning. Our engineers are ready to discuss the next step."/><section className="section" id="quote"><div className="container contact-grid"><div><div className="eyebrow">Get in touch</div><h2>A conversation is<br/>where it starts.</h2><p className="scope-heading">For project enquiries, technical requirements or vendor opportunities, connect with our Lagos team.</p><div className="contact-details">{[{icon:Phone,title:'Call us',content:<a href="tel:+2348057699215">0805 769 9215</a>},{icon:Mail,title:'Email us',content:<a href="mailto:info@rainenergy.ng">info@rainenergy.ng</a>},{icon:MapPin,title:'Head office',content:'Lagos, Nigeria'},{icon:Clock,title:'Office hours',content:'Monday to Friday, 8am to 5pm'}].map(d=><div className="contact-detail" key={d.title}><d.icon/><div><h3>{d.title}</h3><p>{d.content}</p></div></div>)}</div><iframe title="Map of Lekki, Lagos" src="https://maps.google.com/maps?q=Lekki%2C%20Lagos&t=&z=12&ie=UTF8&iwloc=&output=embed" className="map" loading="lazy" referrerPolicy="no-referrer-when-downgrade"/></div><div><div className="form-tabs" role="tablist" aria-label="Enquiry type"><Button role="tab" aria-selected={tab==='quote'} variant="ghost" className={`tab ${tab==='quote'?'selected':''}`} onClick={()=>{setTab('quote');setSubmitted(false)}}>Request a quote</Button><Button role="tab" aria-selected={tab==='general'} variant="ghost" className={`tab ${tab==='general'?'selected':''}`} onClick={()=>{setTab('general');setSubmitted(false)}}>General or vendor enquiry</Button></div>{submitted?<div className="success" role="status"><CheckCircle2/><h2>Thank you.</h2><p>Your request has been received and our team will respond within one working day.</p><p className="form-note">Demo confirmation only. No information has been sent or saved.</p><Button variant="navyOutline" onClick={()=>setSubmitted(false)}>Start another enquiry</Button></div>:<form onSubmit={submit}><div className="form-grid"><Field label="Full name" name="name" required/><Field label="Company" name="company" required/><Field label="Email" name="email" type="email" required/><Field label="Phone" name="phone" type="tel" required/>{tab==='quote'?<><div className="field full"><label htmlFor="service">Service required *</label><select id="service" name="service" required defaultValue=""><option value="" disabled>Select a service</option>{services.map(s=><option key={s.slug} value={s.slug}>{s.name}</option>)}</select></div><Field label="Project location" name="location" required/><Field label="Expected start date" name="start" type="date"/></>:<div className="field full"><label htmlFor="enquiry">Enquiry type *</label><select id="enquiry" name="enquiry" defaultValue="general"><option value="general">General enquiry</option><option value="vendor">Vendor / supplier enquiry</option></select></div>}<div className="field full"><label htmlFor="details">{tab==='quote'?'Project details':'Your message'} *</label><textarea id="details" name="details" placeholder={tab==='quote'?'Tell us about your project, scope and requirements…':'How can we help?'} required/></div></div><div className="form-footer"><Button variant="gold" type="submit">{tab==='quote'?'Submit quote request':'Submit enquiry'}<ArrowUpRight/></Button><p className="form-note">* Required fields. This is a demo form; no information is sent or saved.</p></div></form>}</div></div></section></Layout>}
-function Field({label,name,type='text',required=false}:{label:string;name:string;type?:string;required?:boolean}){return <div className="field"><label htmlFor={name}>{label}{required?' *':''}</label><input id={name} name={name} type={type} required={required} autoComplete={name==='name'?'name':name==='email'?'email':name==='phone'?'tel':name==='company'?'organization':undefined}/></div>}
+import { useEffect, useState, type FormEvent } from "react";
+import { Button } from "@/components/ui/button";
+import { services } from "@/data/content";
+import { Layout, PageHero, Phone, Mail, MapPin, Clock, CheckCircle2, ArrowUpRight } from "./shared";
+export function ContactPage() {
+  const [tab, setTab] = useState("quote");
+  const [submitted, setSubmitted] = useState(false);
+  useEffect(() => {
+    if (window.location.hash === "#quote") setTab("quote");
+  }, []);
+  const submit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (e.currentTarget.checkValidity()) setSubmitted(true);
+    else e.currentTarget.reportValidity();
+  };
+  return (
+    <Layout>
+      <PageHero
+        title="Let’s move your project forward."
+        description="Tell us what you’re planning. Our engineers are ready to discuss the next step."
+      />
+      <section className="section" id="quote">
+        <div className="container contact-grid">
+          <div>
+            <div className="eyebrow">Get in touch</div>
+            <h2>
+              A conversation is
+              <br />
+              where it starts.
+            </h2>
+            <p className="scope-heading">
+              For project enquiries, technical requirements or vendor opportunities, connect with
+              our Lagos team.
+            </p>
+            <div className="contact-details">
+              {[
+                {
+                  icon: Phone,
+                  title: "Call us",
+                  content: <a href="tel:+2348057699215">0805 769 9215</a>,
+                },
+                {
+                  icon: Mail,
+                  title: "Email us",
+                  content: <a href="mailto:info@rainenergy.ng">info@rainenergy.ng</a>,
+                },
+                { icon: MapPin, title: "Head office", content: "Lagos, Nigeria" },
+                { icon: Clock, title: "Office hours", content: "Monday to Friday, 8am to 5pm" },
+              ].map((d) => (
+                <div className="contact-detail" key={d.title}>
+                  <d.icon />
+                  <div>
+                    <h3>{d.title}</h3>
+                    <p>{d.content}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <iframe
+              title="Map of Lekki, Lagos"
+              src="https://maps.google.com/maps?q=Lekki%2C%20Lagos&t=&z=12&ie=UTF8&iwloc=&output=embed"
+              className="map"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+          <div>
+            <div className="form-tabs" role="tablist" aria-label="Enquiry type">
+              <Button
+                role="tab"
+                aria-selected={tab === "quote"}
+                variant="ghost"
+                className={`tab ${tab === "quote" ? "selected" : ""}`}
+                onClick={() => {
+                  setTab("quote");
+                  setSubmitted(false);
+                }}
+              >
+                Request a quote
+              </Button>
+              <Button
+                role="tab"
+                aria-selected={tab === "general"}
+                variant="ghost"
+                className={`tab ${tab === "general" ? "selected" : ""}`}
+                onClick={() => {
+                  setTab("general");
+                  setSubmitted(false);
+                }}
+              >
+                General or vendor enquiry
+              </Button>
+            </div>
+            {submitted ? (
+              <div className="success" role="status">
+                <CheckCircle2 />
+                <h2>Thank you.</h2>
+                <p>
+                  Your request has been received and our team will respond within one working day.
+                </p>
+                <p className="form-note">
+                  Demo confirmation only. No information has been sent or saved.
+                </p>
+                <Button variant="navyOutline" onClick={() => setSubmitted(false)}>
+                  Start another enquiry
+                </Button>
+              </div>
+            ) : (
+              <form onSubmit={submit}>
+                <div className="form-grid">
+                  <Field label="Full name" name="name" required />
+                  <Field label="Company" name="company" required />
+                  <Field label="Email" name="email" type="email" required />
+                  <Field label="Phone" name="phone" type="tel" required />
+                  {tab === "quote" ? (
+                    <>
+                      <div className="field full">
+                        <label htmlFor="service">Service required *</label>
+                        <select id="service" name="service" required defaultValue="">
+                          <option value="" disabled>
+                            Select a service
+                          </option>
+                          {services.map((s) => (
+                            <option key={s.slug} value={s.slug}>
+                              {s.name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <Field label="Project location" name="location" required />
+                      <Field label="Expected start date" name="start" type="date" />
+                    </>
+                  ) : (
+                    <div className="field full">
+                      <label htmlFor="enquiry">Enquiry type *</label>
+                      <select id="enquiry" name="enquiry" defaultValue="general">
+                        <option value="general">General enquiry</option>
+                        <option value="vendor">Vendor / supplier enquiry</option>
+                      </select>
+                    </div>
+                  )}
+                  <div className="field full">
+                    <label htmlFor="details">
+                      {tab === "quote" ? "Project details" : "Your message"} *
+                    </label>
+                    <textarea
+                      id="details"
+                      name="details"
+                      placeholder={
+                        tab === "quote"
+                          ? "Tell us about your project, scope and requirements…"
+                          : "How can we help?"
+                      }
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="form-footer">
+                  <Button variant="gold" type="submit">
+                    {tab === "quote" ? "Submit quote request" : "Submit enquiry"}
+                    <ArrowUpRight />
+                  </Button>
+                  <p className="form-note">
+                    * Required fields. This is a demo form; no information is sent or saved.
+                  </p>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      </section>
+    </Layout>
+  );
+}
+function Field({
+  label,
+  name,
+  type = "text",
+  required = false,
+}: {
+  label: string;
+  name: string;
+  type?: string;
+  required?: boolean;
+}) {
+  return (
+    <div className="field">
+      <label htmlFor={name}>
+        {label}
+        {required ? " *" : ""}
+      </label>
+      <input
+        id={name}
+        name={name}
+        type={type}
+        required={required}
+        autoComplete={
+          name === "name"
+            ? "name"
+            : name === "email"
+              ? "email"
+              : name === "phone"
+                ? "tel"
+                : name === "company"
+                  ? "organization"
+                  : undefined
+        }
+      />
+    </div>
+  );
+}

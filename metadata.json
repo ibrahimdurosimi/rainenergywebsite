@@ -1,0 +1,6 @@
+{
+  "name": "Rain Energy",
+  "description": "Corporate website for Rain Energy showcasing engineering, fabrication, pipeline, and energy services.",
+  "permissions": [],
+  "capabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
