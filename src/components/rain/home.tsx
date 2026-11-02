@@ -1,16 +1,17 @@
+import { Link } from "@tanstack/react-router";
+import { ArrowDown, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { images, sectors } from "@/data/content";
+import { images, company } from "@/data/content";
 import {
   Layout,
+  Reveal,
   SectionHeading,
-  ServicesGrid,
+  Stripes,
   QuoteButton,
-  why,
+  ComplianceGrid,
   ArrowUpRight,
-  ShieldCheck,
-  company,
 } from "./shared";
-import { ArrowDown } from "lucide-react";
+import { FactsBand, HseRail, PipelineSchematic, ServiceExplorer, ValuesRow } from "./interactive";
 
 export function HomePage() {
   return (
@@ -18,40 +19,43 @@ export function HomePage() {
       <section className="home-hero">
         <img
           className="hero-photo"
-          src={images.plant}
-          alt="Rain Energy gas processing and pipeline infrastructure"
-          width={1920}
-          height={1024}
+          src={images.refinery}
+          alt="Oil and gas processing facility at dusk"
+          width={2200}
+          height={1467}
           fetchPriority="high"
         />
+        <Stripes className="stripes-hero" />
         <div className="container hero-content reveal">
           <div className="eyebrow">
-            {company.tagline} • {company.experienceHeadline}
+            {company.tagline} • Est. {company.established}
           </div>
           <h1>
-            Bridging decades of expertise
-            <br />
-            with the <span>future of energy.</span>
+            <span className="line">Bridging decades</span>
+            <span className="line">of expertise with</span>
+            <span className="line">
+              the <em>future of energy.</em>
+            </span>
           </h1>
           <p>
             Rain Energy Ltd is a fully indigenous Nigerian oil and gas servicing company. 100%
-            Nigerian-owned and powered by skilled indigenous professionals, delivering proven
-            success from EPIC&C to high-risk pipeline interventions and LPG/CNG distribution.
+            Nigerian-owned, built on 20+ years of founding-team experience. End-to-end solutions
+            from EPIC&amp;C to pipeline maintenance and LPG / CNG distribution.
           </p>
           <div className="hero-actions">
             <QuoteButton />
             <Button asChild variant="lightOutline">
-              <a href="/services">
+              <Link to="/services">
                 Explore our services
                 <ArrowUpRight />
-              </a>
+              </Link>
             </Button>
           </div>
         </div>
         <div className="container hero-bottom">
           <span>
             <ShieldCheck />
-            Safety-First Culture • Expert Leadership • Community Impact
+            {company.commitments.join(" • ")}
           </span>
           <span className="scroll-label">
             Explore our capabilities
@@ -60,72 +64,97 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Core Services Section */}
+      <FactsBand />
+
       <section className="section">
         <div className="container">
           <SectionHeading
-            eyebrow="Our capabilities"
+            eyebrow="What we do"
             title="Comprehensive solutions for the energy sector."
-            description="End-to-end execution across the entire energy value chain — from front-end engineering design to specialized field installations and nationwide gas distribution."
+            description="Six core services, one indigenous team. Select a service to explore what we deliver."
           />
-          <ServicesGrid />
+          <Reveal>
+            <ServiceExplorer />
+          </Reveal>
         </div>
       </section>
 
-      {/* Why Rain Energy Split */}
       <section className="section section-muted">
         <div className="container split">
-          <img
-            src={images.engineer}
-            alt="Nigerian engineer reviewing energy facility specifications"
-            width={1024}
-            height={1024}
-            loading="lazy"
-          />
-          <div>
-            <div className="eyebrow">Who We Are</div>
+          <Reveal>
+            <img
+              src={images.engineer}
+              alt="Engineer reviewing facility specifications"
+              width={1024}
+              height={1024}
+              loading="lazy"
+            />
+          </Reveal>
+          <Reveal delay={120}>
+            <div className="eyebrow">Who we are</div>
             <h2>
               New company.
               <br />
-              20+ years founder expertise.
+              20 years founder experience.
             </h2>
-            <p>
-              Rain Energy Ltd brings together over two decades of technical leadership in upstream
-              and downstream operations, offering unmatched reliability and flawless execution under
-              strict international standards.
-            </p>
-            <div className="reasons">
-              {why.map((r) => (
-                <div className="reason" key={r.title}>
-                  <r.icon />
-                  <div>
-                    <h3>{r.title}</h3>
-                    <p>{r.text}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <a href="/about" className="text-link">
+            {company.whoWeAre.map((p) => (
+              <p key={p}>{p}</p>
+            ))}
+            <p className="lead-gold">{company.endToEnd}</p>
+            <Link to="/about" className="text-link">
               Read our full company story
               <ArrowUpRight />
-            </a>
+            </Link>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="section dark-band blueprint">
+        <div className="container">
+          <SectionHeading
+            eyebrow="Pipeline services"
+            title="Protecting critical energy infrastructure."
+            description="Expert high-risk emergency repairs and specialized pipeline interventions delivered under strict safety protocols."
+          />
+          <Reveal>
+            <PipelineSchematic />
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="container">
+          <SectionHeading
+            eyebrow="HSE policy"
+            title="Safety is non-negotiable."
+            description={company.hseIntro}
+          />
+          <Reveal>
+            <HseRail />
+          </Reveal>
+          <div className="more-link">
+            <Link to="/hse-quality" className="text-link">
+              Our HSE policy and compliance
+              <ArrowUpRight />
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Sectors We Serve */}
+      <section className="section section-muted">
+        <div className="container">
+          <SectionHeading eyebrow="Our values" title="Built on trust and visibility." />
+          <ValuesRow />
+        </div>
+      </section>
+
       <section className="section">
         <div className="container">
-          <div className="eyebrow">Where we work</div>
-          <h2>Sectors we serve.</h2>
-          <div className="sector-grid">
-            {sectors.map((s, i) => (
-              <a href="/services" className="sector" key={s}>
-                <span>0{i + 1}</span>
-                <h3>{s}</h3>
-              </a>
-            ))}
-          </div>
+          <SectionHeading
+            eyebrow="Compliance & certifications"
+            title="A trusted corporate partner."
+          />
+          <ComplianceGrid />
         </div>
       </section>
     </Layout>

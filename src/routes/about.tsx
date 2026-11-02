@@ -5,7 +5,7 @@ export const Route = createFileRoute("/about")({
   head: () =>
     pageHead(
       "About Rain Energy",
-      "Discover Rain Energy, our Nigerian workforce, mission, values and leadership.",
+      "A fully indigenous Nigerian oil and gas servicing company: 100% Nigerian-owned and built on 20+ years of founding-team experience.",
       "/about",
     ),
   component: AboutPage,

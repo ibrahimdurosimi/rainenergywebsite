@@ -5,8 +5,8 @@ export const Route = createFileRoute("/404")({
   head: () =>
     pageHead(
       "Page not found",
-      "This page could not be found. Explore Rain Energy services and projects.",
+      "This page could not be found. Explore Rain Energy's services.",
       "/404",
     ),
-  component: NotFound,
+  component: () => <NotFound />,
 });
