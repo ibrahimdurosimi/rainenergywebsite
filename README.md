@@ -27,10 +27,10 @@ npm run lint
 
 Until the Resend key is added, the contact form shows a polite "please email us" message instead of failing.
 
-## Swapping in the real logo
+## Logo
 
-The logo is drawn in `src/components/rain/shared.tsx` (`RELogoMark`). Replace it with the supplied logo file
-(also update `public/logo-512.png`, `public/favicon` and `public/og-image.jpg`).
+The logo is the image used by `src/components/rain/shared.tsx` (`Wordmark`, which uses `src/assets/logo.png`). Replace `src/assets/logo.png`
+(also update `public/logo.png`, `public/logo-512.png`, `public/favicon.ico` and `public/og-image.jpg`).
 
 ## Content rules
 

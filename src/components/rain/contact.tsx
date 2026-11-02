@@ -222,7 +222,7 @@ export function ContactPage() {
                   </p>
                 )}
                 <div className="form-footer">
-                  <Button variant="gold" type="submit" disabled={status === "sending"}>
+                  <Button variant="navy" type="submit" disabled={status === "sending"}>
                     {status === "sending" ? (
                       <>
                         Sending

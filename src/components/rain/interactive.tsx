@@ -157,7 +157,7 @@ export function PipelineSchematic() {
         <rect width="960" height="400" fill="url(#grid)" />
         {/* ground */}
         <rect x="0" y="236" width="960" height="164" fill="#0b1f33" fillOpacity="0.55" />
-        <path d="M0 236H960" stroke="#c6a15b" strokeOpacity="0.35" strokeDasharray="2 6" />
+        <path d="M0 236H960" stroke="#8fb3cc" strokeOpacity="0.35" strokeDasharray="2 6" />
 
         {/* river for HDD */}
         <rect x="692" y="150" width="136" height="86" fill="url(#waterGrad)" />
@@ -189,7 +189,7 @@ export function PipelineSchematic() {
         {/* 1 Hot tapping */}
         <g className={on(0)}>
           <rect x="104" y="128" width="12" height="64" fill="url(#pipeGrad)" />
-          <rect x="96" y="120" width="28" height="12" fill="#0b1f33" stroke="#c6a15b" />
+          <rect x="96" y="120" width="28" height="12" fill="#0b1f33" stroke="#8fb3cc" />
           <rect
             x="84"
             y="70"
@@ -197,11 +197,11 @@ export function PipelineSchematic() {
             height="48"
             rx="3"
             fill="#0b1f33"
-            stroke="#c6a15b"
+            stroke="#8fb3cc"
             strokeWidth="1.5"
           />
-          <path d="M110 118V196" stroke="#c6a15b" strokeDasharray="3 4" />
-          <circle cx="110" cy="92" r="9" fill="none" stroke="#c6a15b" />
+          <path d="M110 118V196" stroke="#8fb3cc" strokeDasharray="3 4" />
+          <circle cx="110" cy="92" r="9" fill="none" stroke="#8fb3cc" />
         </g>
 
         {/* 2 Stopple */}
@@ -209,12 +209,12 @@ export function PipelineSchematic() {
           <rect x="246" y="140" width="14" height="52" fill="url(#pipeGrad)" />
           <rect x="280" y="140" width="14" height="52" fill="url(#pipeGrad)" />
           <path d="M253 140V112H287V140" fill="none" stroke="#557a95" strokeWidth="14" />
-          <rect x="262" y="190" width="16" height="30" fill="#c6a15b" />
+          <rect x="262" y="190" width="16" height="30" fill="#8fb3cc" />
         </g>
 
         {/* 3 Mechanical clamp */}
         <g className={on(2)}>
-          <rect x="406" y="182" width="48" height="46" rx="4" fill="#c6a15b" />
+          <rect x="406" y="182" width="48" height="46" rx="4" fill="#8fb3cc" />
           <rect x="406" y="182" width="48" height="10" rx="4" fill="#e3c88f" />
           <circle cx="414" cy="205" r="3" fill="#0b1f33" />
           <circle cx="446" cy="205" r="3" fill="#0b1f33" />
@@ -230,7 +230,7 @@ export function PipelineSchematic() {
             height="104"
             fill="#0b1f33"
             fillOpacity="0.55"
-            stroke="#c6a15b"
+            stroke="#8fb3cc"
             strokeWidth="1.5"
             strokeDasharray="6 4"
           />
@@ -246,8 +246,8 @@ export function PipelineSchematic() {
             strokeOpacity="0.6"
             fill="none"
           />
-          <rect x="526" y="146" width="8" height="112" fill="#c6a15b" />
-          <rect x="646" y="146" width="8" height="112" fill="#c6a15b" />
+          <rect x="526" y="146" width="8" height="112" fill="#8fb3cc" />
+          <rect x="646" y="146" width="8" height="112" fill="#8fb3cc" />
         </g>
 
         {/* 5 HDD crossing */}
@@ -255,17 +255,17 @@ export function PipelineSchematic() {
           <path
             d="M692 205C720 205 726 330 760 330C794 330 800 205 828 205"
             fill="none"
-            stroke="#c6a15b"
+            stroke="#8fb3cc"
             strokeWidth="3"
             strokeDasharray="8 6"
           />
-          <circle cx="692" cy="205" r="5" fill="#c6a15b" />
-          <circle cx="828" cy="205" r="5" fill="#c6a15b" />
+          <circle cx="692" cy="205" r="5" fill="#8fb3cc" />
+          <circle cx="828" cy="205" r="5" fill="#8fb3cc" />
         </g>
 
         {/* 6 Welding & NDT */}
         <g className={on(5)}>
-          <rect x="880" y="184" width="12" height="42" rx="3" fill="#c6a15b" />
+          <rect x="880" y="184" width="12" height="42" rx="3" fill="#8fb3cc" />
           <path
             d="M862 150q28 -26 56 0"
             fill="none"
@@ -416,7 +416,7 @@ export function ValuesRow() {
     <div className="values-row">
       <div className="pills">
         {company.values.map((v, i) => (
-          <Reveal className={`pill ${i % 2 === 0 ? "gold" : "mist"}`} key={v} delay={i * 80}>
+          <Reveal className={`pill ${i % 2 === 0 ? "navy" : "mist"}`} key={v} delay={i * 80}>
             {v}
           </Reveal>
         ))}

@@ -10,6 +10,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         gold: "rain-button rain-button-gold",
+        navy: "rain-button rain-button-navy-solid",
         lightOutline: "rain-button rain-button-light",
         navyOutline: "rain-button rain-button-navy",
         default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
