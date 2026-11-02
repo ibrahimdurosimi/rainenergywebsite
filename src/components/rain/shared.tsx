@@ -1,3 +1,4 @@
+import logo from "@/assets/logo.png";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
 import {
@@ -117,43 +118,10 @@ export function CountUp({ value, suffix = "" }: { value: number; suffix?: string
 /* Brand                                                               */
 /* ------------------------------------------------------------------ */
 
-export function RELogoMark({
-  className = "w-9 h-9",
-  color = "#FFFFFF",
-  accentColor = "#C6A15B",
-}: {
-  className?: string;
-  color?: string;
-  accentColor?: string;
-}) {
+export function Wordmark({ className = "" }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 100 100"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={className}
-      aria-hidden="true"
-    >
-      <path
-        d="M16 16H48C59 16 67 24 67 35C67 44.5 60.5 52.5 50.5 54L68 84H52L36 56H28V84H16V16ZM28 28V44H47C52 44 55 40.5 55 36C55 31.5 52 28 47 28H28Z"
-        fill={color}
-      />
-      <path
-        d="M60 20H86V30H60V20ZM56 40H84V50H56V40ZM50 63L63 84H77L64 63H50Z"
-        fill={accentColor}
-      />
-    </svg>
-  );
-}
-
-export function Wordmark() {
-  return (
-    <Link to="/" className="brand" aria-label="Rain Energy Limited home">
-      <RELogoMark className="w-10 h-10" color="#FFFFFF" accentColor="#C6A15B" />
-      <div className="brand-titles">
-        <span className="brand-name">RAIN</span>
-        <span className="brand-sub">ENERGY LIMITED</span>
-      </div>
+    <Link to="/" className={`brand ${className}`} aria-label="Rain Energy Limited home">
+      <img src={logo} alt="Rain Energy Limited" width={1400} height={199} />
     </Link>
   );
 }
@@ -324,7 +292,7 @@ export function Layout({ children }: { children: ReactNode }) {
             <h2>Let's build the future of energy together.</h2>
             <p>20 years of collective experience. One indigenous team ready to deliver.</p>
           </div>
-          <Button asChild variant="navyOutline">
+          <Button asChild variant="gold">
             <Link to="/contact" hash="quote">
               Request a quote
               <ArrowUpRight />
@@ -336,7 +304,7 @@ export function Layout({ children }: { children: ReactNode }) {
         <div className="container">
           <div className="footer-grid">
             <div>
-              <Wordmark />
+              <Wordmark className="on-dark" />
               <p>
                 {company.whoWeAre[0]} Built on 20+ years of founding-team experience across the
                 entire energy value chain.
@@ -504,7 +472,7 @@ export function NotFound({
         <strong>404</strong>
         <h1>This {kind} couldn't be found.</h1>
         <p>The link may be incomplete, or the {kind} is no longer available.</p>
-        <Button asChild variant="gold">
+        <Button asChild variant="navy">
           <Link to={to}>
             {label}
             <ArrowRight />
