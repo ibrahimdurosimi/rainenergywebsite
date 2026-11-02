@@ -1,26 +1,37 @@
-# Rainenergywebsite
+# Rain Energy Limited — website
 
-build this
+Corporate website for Rain Energy Limited (rainenergy.ng). Built with TanStack Start, React, Tailwind and
+deployed to Cloudflare Workers. All content comes from the Rain Energy Company Profile and Brand Guidelines (2026).
 
-This project was built with [Lovable](https://lovable.dev).
+## Run it locally
 
-**Live app**: https://rainenergywebsite.lovable.app
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/73a792b4-bc78-4c6f-8d64-df93279ac67d).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+```bash
+npm install
+npm run dev        # http://localhost:3000
+npm test           # tests
+npm run lint
 ```
+
+## Launch on Cloudflare (one-time setup)
+
+1. In Cloudflare: **Workers & Pages → Create → Import a repository** and pick this GitHub repo (branch `main`).
+2. Build settings:
+   - **Build command:** `npm run build`
+   - **Deploy command:** `npm run deploy`
+3. Open the Worker's **Settings → Variables and Secrets** and add:
+   - `RESEND_API_KEY` — type **Secret**, your key from resend.com
+   - `CONTACT_FROM` — e.g. `Rain Energy Website <website@rainenergy.ng>` (the domain must be verified in Resend)
+   - `CONTACT_TO` — optional, defaults to `info@rainenergy.ng`
+4. **Settings → Domains & Routes → Add custom domain:** `rainenergy.ng` and `www.rainenergy.ng`.
+5. Every push to `main` now redeploys automatically.
+
+Until the Resend key is added, the contact form shows a polite "please email us" message instead of failing.
+
+## Swapping in the real logo
+
+The logo is drawn in `src/components/rain/shared.tsx` (`RELogoMark`). Replace it with the supplied logo file
+(also update `public/logo-512.png`, `public/favicon` and `public/og-image.jpg`).
+
+## Content rules
+
+See `AGENTS.md`. No invented statistics, no TIN on the public site, one source of truth in `src/data/content.ts`.

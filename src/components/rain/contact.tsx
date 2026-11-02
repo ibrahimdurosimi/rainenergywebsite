@@ -1,138 +1,165 @@
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
+import { Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { services } from "@/data/content";
-import { Layout, PageHero, Phone, Mail, MapPin, Clock, CheckCircle2, ArrowUpRight } from "./shared";
+import { company, services } from "@/data/content";
+import { sendEnquiry } from "@/lib/contact";
+import { Layout, PageHero, Reveal, Phone, Mail, MapPin, ArrowUpRight } from "./shared";
+
+type Tab = "quote" | "general";
+
 export function ContactPage() {
-  const [tab, setTab] = useState("quote");
-  const [submitted, setSubmitted] = useState(false);
+  const [tab, setTab] = useState<Tab>("quote");
+  const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
+  const [error, setError] = useState<string | null>(null);
+  const openedAt = useRef(0);
+  const form = useRef<HTMLFormElement | null>(null);
+
   useEffect(() => {
-    if (window.location.hash === "#quote") setTab("quote");
+    openedAt.current = Date.now();
   }, []);
-  const submit = (e: FormEvent<HTMLFormElement>) => {
+
+  const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (e.currentTarget.checkValidity()) setSubmitted(true);
-    else e.currentTarget.reportValidity();
+    const f = e.currentTarget;
+    if (!f.checkValidity()) {
+      f.reportValidity();
+      return;
+    }
+    const v = new FormData(f);
+    const get = (k: string) => String(v.get(k) ?? "");
+    const kind = tab === "quote" ? "quote" : get("enquiry") === "vendor" ? "vendor" : "general";
+    setStatus("sending");
+    setError(null);
+    try {
+      const result = await sendEnquiry({
+        data: {
+          kind,
+          name: get("name"),
+          company: get("company"),
+          email: get("email"),
+          phone: get("phone"),
+          service: get("service"),
+          location: get("location"),
+          start: get("start"),
+          details: get("details"),
+          website: get("website"),
+          openedAt: openedAt.current,
+        },
+      });
+      if (result.ok) {
+        setStatus("sent");
+      } else {
+        setStatus("idle");
+        setError(result.message);
+      }
+    } catch {
+      setStatus("idle");
+      setError(
+        "We couldn't send your message just now. Please check your details and try again, or email info@rainenergy.ng.",
+      );
+    }
   };
+
+  const again = () => {
+    setStatus("idle");
+    setError(null);
+    openedAt.current = Date.now();
+  };
+
   return (
     <Layout>
       <PageHero
         title="Let's build the future of energy together."
-        description="20 years of collective experience — one indigenous team ready to deliver."
+        description="20 years of collective experience. One indigenous team ready to deliver."
       />
       <section className="section" id="quote">
         <div className="container contact-grid">
-          <div>
-            <div className="eyebrow">Get In Touch</div>
+          <Reveal>
+            <div className="eyebrow">Get in touch</div>
             <h2>
               A conversation is
               <br />
               where it starts.
             </h2>
             <p className="scope-heading">
-              For project tenders, turnkey EPIC&C proposals, pipeline interventions, or LPG/CNG
-              supply agreements, connect directly with our engineering leadership in Lagos.
+              Tell us about your project, tender or supply requirement and our team will come back
+              to you.
             </p>
             <div className="contact-details">
-              {[
-                {
-                  icon: Phone,
-                  title: "Direct telephone",
-                  content: (
-                    <div className="space-y-1">
-                      <div>
-                        <a href="tel:+2348057699215">080 5769 9215</a>
+              <div className="contact-detail">
+                <Phone />
+                <div>
+                  <h3>Phone</h3>
+                  <div className="space-y-1">
+                    {company.phones.map((p) => (
+                      <div key={p.tel}>
+                        <a href={`tel:${p.tel}`}>{p.display}</a>
                       </div>
-                      <div>
-                        <a href="tel:+2348037414562">080 3741 4562</a>
-                      </div>
-                    </div>
-                  ),
-                },
-                {
-                  icon: Mail,
-                  title: "Official email",
-                  content: <a href="mailto:info@rainenergy.ng">info@rainenergy.ng</a>,
-                },
-                {
-                  icon: MapPin,
-                  title: "Head office",
-                  content: (
-                    <span>
-                      No. 1 Oba Sijuade Okunade Crescent,
-                      <br />
-                      Chevy View Estate, Lekki, Lagos, Nigeria
-                    </span>
-                  ),
-                },
-                {
-                  icon: Clock,
-                  title: "Office hours",
-                  content: "Monday to Friday, 8:00 AM – 5:00 PM (WAT)",
-                },
-              ].map((d) => (
-                <div className="contact-detail" key={d.title}>
-                  <d.icon />
-                  <div>
-                    <h3>{d.title}</h3>
-                    <div>{d.content}</div>
+                    ))}
                   </div>
                 </div>
-              ))}
-            </div>
-            <div className="mt-4 p-4 rounded-lg bg-paper border border-border text-xs text-navy font-semibold">
-              100% Nigerian-Owned • Indigenous Excellence in Oil & Gas Services
+              </div>
+              <div className="contact-detail">
+                <Mail />
+                <div>
+                  <h3>Email</h3>
+                  <a href={`mailto:${company.email}`}>{company.email}</a>
+                </div>
+              </div>
+              <div className="contact-detail">
+                <MapPin />
+                <div>
+                  <h3>Head office</h3>
+                  <span>
+                    No. 1 Oba Sijuade Okunade Crescent,
+                    <br />
+                    Chevy View Estate, Lekki, Lagos, Nigeria
+                  </span>
+                </div>
+              </div>
             </div>
             <iframe
-              title="Rain Energy Limited Headquarters, Lekki, Lagos"
+              title="Rain Energy Limited head office, Lekki, Lagos"
               src="https://maps.google.com/maps?q=Chevy+View+Estate+Lekki+Lagos&t=&z=13&ie=UTF8&iwloc=&output=embed"
               className="map"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />
-          </div>
-          <div>
+          </Reveal>
+          <Reveal delay={120}>
             <div className="form-tabs" role="tablist" aria-label="Enquiry type">
-              <Button
-                role="tab"
-                aria-selected={tab === "quote"}
-                variant="ghost"
-                className={`tab ${tab === "quote" ? "selected" : ""}`}
-                onClick={() => {
-                  setTab("quote");
-                  setSubmitted(false);
-                }}
-              >
-                Request a quote
-              </Button>
-              <Button
-                role="tab"
-                aria-selected={tab === "general"}
-                variant="ghost"
-                className={`tab ${tab === "general" ? "selected" : ""}`}
-                onClick={() => {
-                  setTab("general");
-                  setSubmitted(false);
-                }}
-              >
-                General or vendor enquiry
-              </Button>
+              {(
+                [
+                  ["quote", "Request a quote"],
+                  ["general", "General or vendor enquiry"],
+                ] as const
+              ).map(([id, label]) => (
+                <Button
+                  key={id}
+                  role="tab"
+                  aria-selected={tab === id}
+                  variant="ghost"
+                  className={`tab ${tab === id ? "selected" : ""}`}
+                  onClick={() => {
+                    setTab(id);
+                    setError(null);
+                  }}
+                >
+                  {label}
+                </Button>
+              ))}
             </div>
-            {submitted ? (
+            {status === "sent" ? (
               <div className="success" role="status">
                 <CheckCircle2 />
                 <h2>Thank you.</h2>
-                <p>
-                  Your request has been received and our team will respond within one working day.
-                </p>
-                <p className="form-note">
-                  Demo confirmation only. No information has been sent or saved.
-                </p>
-                <Button variant="navyOutline" onClick={() => setSubmitted(false)}>
-                  Start another enquiry
+                <p>Your message has been sent to our team. We'll be in touch shortly.</p>
+                <Button variant="navyOutline" onClick={again}>
+                  Send another enquiry
                 </Button>
               </div>
             ) : (
-              <form onSubmit={submit}>
+              <form onSubmit={submit} ref={form} noValidate={false}>
                 <div className="form-grid">
                   <Field label="Full name" name="name" required />
                   <Field label="Company" name="company" required />
@@ -147,7 +174,7 @@ export function ContactPage() {
                             Select a service
                           </option>
                           {services.map((s) => (
-                            <option key={s.slug} value={s.slug}>
+                            <option key={s.slug} value={s.name}>
                               {s.name}
                             </option>
                           ))}
@@ -172,6 +199,8 @@ export function ContactPage() {
                     <textarea
                       id="details"
                       name="details"
+                      minLength={10}
+                      maxLength={5000}
                       placeholder={
                         tab === "quote"
                           ? "Tell us about your project, scope and requirements…"
@@ -180,24 +209,43 @@ export function ContactPage() {
                       required
                     />
                   </div>
+                  {/* Honeypot: hidden from people, tempting to bots. */}
+                  <div className="hp" aria-hidden="true">
+                    <label htmlFor="website">Leave this field empty</label>
+                    <input id="website" name="website" tabIndex={-1} autoComplete="off" />
+                  </div>
                 </div>
-                <div className="form-footer">
-                  <Button variant="gold" type="submit">
-                    {tab === "quote" ? "Submit quote request" : "Submit enquiry"}
-                    <ArrowUpRight />
-                  </Button>
-                  <p className="form-note">
-                    * Required fields. This is a demo form; no information is sent or saved.
+                {error && (
+                  <p className="form-error" role="alert">
+                    <AlertCircle />
+                    {error}
                   </p>
+                )}
+                <div className="form-footer">
+                  <Button variant="gold" type="submit" disabled={status === "sending"}>
+                    {status === "sending" ? (
+                      <>
+                        Sending
+                        <Loader2 className="spin" />
+                      </>
+                    ) : (
+                      <>
+                        {tab === "quote" ? "Submit quote request" : "Submit enquiry"}
+                        <ArrowUpRight />
+                      </>
+                    )}
+                  </Button>
+                  <p className="form-note">* Required fields.</p>
                 </div>
               </form>
             )}
-          </div>
+          </Reveal>
         </div>
       </section>
     </Layout>
   );
 }
+
 function Field({
   label,
   name,
@@ -209,29 +257,19 @@ function Field({
   type?: string;
   required?: boolean;
 }) {
+  const auto: Record<string, string> = {
+    name: "name",
+    email: "email",
+    phone: "tel",
+    company: "organization",
+  };
   return (
     <div className="field">
       <label htmlFor={name}>
         {label}
         {required ? " *" : ""}
       </label>
-      <input
-        id={name}
-        name={name}
-        type={type}
-        required={required}
-        autoComplete={
-          name === "name"
-            ? "name"
-            : name === "email"
-              ? "email"
-              : name === "phone"
-                ? "tel"
-                : name === "company"
-                  ? "organization"
-                  : undefined
-        }
-      />
+      <input id={name} name={name} type={type} required={required} autoComplete={auto[name]} />
     </div>
   );
 }

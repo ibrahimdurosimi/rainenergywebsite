@@ -11,6 +11,7 @@
 
 <!-- LOVABLE:END -->
 
-- Keep the required TanStack Start scaffold and use distinct content routes with shared presentation and typed demo data; the platform requires this framework even for a static corporate demo.
-- Keep all Rain Energy colours, typography and visual rules in the global design system; shared page layouts must use semantic styles.
-- Keep all illustrative services, projects, news, leadership and figures in one browser-safe content module; demo forms must not transmit or persist entries.
+- Keep the required TanStack Start scaffold. Services live at `/services/<slug>`; add new pages as file routes in `src/routes`.
+- Keep all Rain Energy colours, typography and visual rules in the global design system (`src/styles.css`); shared page layouts must use semantic styles.
+- All facts on the site come from the Rain Energy Company Profile 2026 and Brand Guidelines 2026. Keep them in `src/data/content.ts`. Do not add invented statistics, projects, news or people. The TIN must not appear on the website.
+- The contact form is live: `src/lib/contact.ts` sends through Resend. It needs `RESEND_API_KEY` and `CONTACT_FROM` set as Cloudflare variables (see README).

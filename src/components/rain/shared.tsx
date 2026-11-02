@@ -1,5 +1,5 @@
-import { useEffect, useState, type ReactNode } from "react";
-import { useLocation } from "@tanstack/react-router";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { Link, useLocation } from "@tanstack/react-router";
 import {
   ArrowUpRight,
   ArrowRight,
@@ -10,35 +10,112 @@ import {
   MapPin,
   Menu,
   X,
-  ShieldCheck,
   MessageCircle,
-  Linkedin,
-  Facebook,
   DraftingCompass,
-  PackageSearch,
-  Wrench,
-  HardHat,
-  Gauge,
+  Cable,
+  BrickWall,
+  Zap,
   Flame,
-  CheckCircle2,
-  Users,
-  Clock,
-  Layers,
-  Leaf,
-  Award,
-  FileCheck2,
+  Wrench,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { services, projects, news, stats, images, company } from "@/data/content";
+import { services, serviceHref, images, company, primaryPhone } from "@/data/content";
 
-export const iconMap = {
-  engineering: DraftingCompass,
-  procurement: PackageSearch,
-  fabrication: Wrench,
-  construction: HardHat,
-  commissioning: Gauge,
-  gas: Flame,
+export const iconMap: Record<string, typeof Wrench> = {
+  epicc: DraftingCompass,
+  "pipeline-works": Cable,
+  "civil-structural": BrickWall,
+  "electrical-instrumentation": Zap,
+  "fabrication-distribution": Flame,
+  "operations-maintenance": Wrench,
 };
+
+/* ------------------------------------------------------------------ */
+/* Motion helpers                                                      */
+/* ------------------------------------------------------------------ */
+
+/** Adds the "in" class once the element scrolls into view. Content stays visible without JS. */
+export function Reveal({
+  children,
+  className = "",
+  delay = 0,
+  as: Tag = "div",
+}: {
+  children: ReactNode;
+  className?: string;
+  delay?: number;
+  as?: "div" | "section" | "li";
+}) {
+  const ref = useRef<HTMLElement | null>(null);
+  const [shown, setShown] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (!("IntersectionObserver" in window)) {
+      setShown(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setShown(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -6% 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  const style = delay ? { transitionDelay: `${delay}ms` } : undefined;
+  return (
+    <Tag ref={ref as never} className={`rv ${shown ? "in" : ""} ${className}`} style={style}>
+      {children}
+    </Tag>
+  );
+}
+
+/** Counts up to `value` the first time it is seen. Server render and no-JS show the final number. */
+export function CountUp({ value, suffix = "" }: { value: number; suffix?: string }) {
+  const ref = useRef<HTMLSpanElement | null>(null);
+  const [n, setN] = useState<number | null>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let frame = 0;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        io.disconnect();
+        const start = performance.now();
+        const tick = (now: number) => {
+          const p = Math.min((now - start) / 1400, 1);
+          setN(Math.round(value * (1 - Math.pow(1 - p, 4))));
+          if (p < 1) frame = requestAnimationFrame(tick);
+        };
+        setN(0);
+        frame = requestAnimationFrame(tick);
+      },
+      { threshold: 0.4 },
+    );
+    io.observe(el);
+    return () => {
+      io.disconnect();
+      cancelAnimationFrame(frame);
+    };
+  }, [value]);
+  return (
+    <span ref={ref} className="count">
+      {n ?? value}
+      <span>{suffix}</span>
+    </span>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Brand                                                               */
+/* ------------------------------------------------------------------ */
 
 export function RELogoMark({
   className = "w-9 h-9",
@@ -57,12 +134,10 @@ export function RELogoMark({
       className={className}
       aria-hidden="true"
     >
-      {/* R Stem & Upper Loop */}
       <path
         d="M16 16H48C59 16 67 24 67 35C67 44.5 60.5 52.5 50.5 54L68 84H52L36 56H28V84H16V16ZM28 28V44H47C52 44 55 40.5 55 36C55 31.5 52 28 47 28H28Z"
         fill={color}
       />
-      {/* Dynamic interlocking E arms & lower diagonal matching R leg angle */}
       <path
         d="M60 20H86V30H60V20ZM56 40H84V50H56V40ZM50 63L63 84H77L64 63H50Z"
         fill={accentColor}
@@ -73,41 +148,62 @@ export function RELogoMark({
 
 export function Wordmark() {
   return (
-    <a href="/" className="brand" aria-label="Rain Energy Limited Home">
+    <Link to="/" className="brand" aria-label="Rain Energy Limited home">
       <RELogoMark className="w-10 h-10" color="#FFFFFF" accentColor="#C6A15B" />
       <div className="brand-titles">
         <span className="brand-name">RAIN</span>
         <span className="brand-sub">ENERGY LIMITED</span>
       </div>
-    </a>
+    </Link>
   );
 }
-const nav: [string, string][] = [
-  ["Home", "/"],
-  ["About", "/about"],
-  ["Services", "/services"],
-  ["Contact", "/contact"],
-];
+
+/** The brand's diagonal gold + steel-blue stripes. Purely decorative. */
+export function Stripes({ className = "" }: { className?: string }) {
+  return (
+    <div className={`stripes ${className}`} aria-hidden="true">
+      <i />
+      <i />
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Layout                                                              */
+/* ------------------------------------------------------------------ */
+
+const nav = [
+  { label: "Home", to: "/" },
+  { label: "About", to: "/about" },
+  { label: "Services", to: "/services" },
+  { label: "HSE & Compliance", to: "/hse-quality" },
+  { label: "Contact", to: "/contact" },
+] as const;
+
 export function QuoteButton({ outline = false }: { outline?: boolean }) {
   return (
     <Button asChild variant={outline ? "lightOutline" : "gold"}>
-      <a href="/contact#quote">
+      <Link to="/contact" hash="quote">
         Request a quote <ArrowUpRight />
-      </a>
+      </Link>
     </Button>
   );
 }
+
 export function Layout({ children }: { children: ReactNode }) {
   const { pathname } = useLocation();
-  const [ribbon, setRibbon] = useState(true);
   const [menu, setMenu] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const active = (path: string) =>
-    path === "/"
-      ? pathname === "/"
-      : pathname === path ||
-        (path === "/services" && pathname === "/service") ||
-        (path === "/projects" && pathname === "/project") ||
-        (path === "/news" && pathname === "/article");
+    path === "/" ? pathname === "/" : pathname === path || pathname.startsWith(`${path}/`);
+
+  useEffect(() => setMenu(false), [pathname]);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
   useEffect(() => {
     if (!menu) return;
     const key = (e: KeyboardEvent) => {
@@ -121,33 +217,22 @@ export function Layout({ children }: { children: ReactNode }) {
       document.body.style.overflow = previous;
     };
   }, [menu]);
+
   return (
     <>
-      {ribbon && (
-        <div className="demo-ribbon">
-          <strong>Demo build by SMEStudio.</strong> Project names, figures, team and certificates
-          shown are samples for illustration.
-          <Button
-            className="demo-close"
-            variant="ghost"
-            size="icon"
-            aria-label="Dismiss demo notice"
-            onClick={() => setRibbon(false)}
-          >
-            <X size={12} />
-          </Button>
-        </div>
-      )}
+      <a href="#main" className="skip-link">
+        Skip to content
+      </a>
       <div className="utility">
         <div className="container">
           <div className="utility-left">
-            <a href="tel:+2348057699215">
+            <a href={`tel:${primaryPhone.tel}`}>
               <Phone />
-              080 5769 9215
+              {primaryPhone.display}
             </a>
-            <a href="mailto:info@rainenergy.ng">
+            <a href={`mailto:${company.email}`}>
               <Mail />
-              info@rainenergy.ng
+              {company.email}
             </a>
             <span>
               <MapPin />
@@ -155,38 +240,42 @@ export function Layout({ children }: { children: ReactNode }) {
             </span>
           </div>
           <div className="utility-right">
-            Indigenous Excellence in Oil & Gas • 100% Nigerian-Owned • 20+ Years Founder Experience
+            {company.tagline} • 100% Nigerian-Owned • {company.experienceHeadline}
           </div>
         </div>
       </div>
-      <header className="site-header">
+      <header className={`site-header ${scrolled ? "is-scrolled" : ""}`}>
         <div className="container header-inner">
           <Wordmark />
           <nav aria-label="Main navigation" className="desktop-nav">
-            {nav.map(([label, path]) =>
-              path === "/services" ? (
-                <div className="nav-dropdown" key={path}>
-                  <a href={path} className={`nav-link ${active(path) ? "active" : ""}`}>
+            {nav.map((item) =>
+              item.to === "/services" ? (
+                <div className="nav-dropdown" key={item.to}>
+                  <Link
+                    to="/services"
+                    className={`nav-link ${active(item.to) ? "active" : ""}`}
+                    aria-current={active(item.to) ? "page" : undefined}
+                  >
                     Services
                     <ChevronDown />
-                  </a>
+                  </Link>
                   <div className="dropdown-panel">
                     {services.map((s) => (
-                      <a key={s.slug} href={`/service?s=${s.slug}`}>
+                      <Link key={s.slug} to="/services/$slug" params={{ slug: s.slug }}>
                         {s.name}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
               ) : (
-                <a
-                  key={path}
-                  className={`nav-link ${active(path) ? "active" : ""}`}
-                  href={path}
-                  aria-current={active(path) ? "page" : undefined}
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  className={`nav-link ${active(item.to) ? "active" : ""}`}
+                  aria-current={active(item.to) ? "page" : undefined}
                 >
-                  {label}
-                </a>
+                  {item.label}
+                </Link>
               ),
             )}
           </nav>
@@ -218,31 +307,28 @@ export function Layout({ children }: { children: ReactNode }) {
               <X />
             </Button>
             <Wordmark />
-            {nav.map(([label, path]) => (
-              <a key={path} href={path} className={active(path) ? "active" : ""}>
-                {label}
-              </a>
+            {nav.map((item) => (
+              <Link key={item.to} to={item.to} className={active(item.to) ? "active" : ""}>
+                {item.label}
+              </Link>
             ))}
             <QuoteButton />
           </nav>
         </>
       )}
-      <main>{children}</main>
+      <main id="main">{children}</main>
       <section className="cta-band">
+        <Stripes className="stripes-cta" />
         <div className="container cta-inner">
           <div>
-            <h2>
-              Have a project in mind?
-              <br />
-              Talk to our engineers.
-            </h2>
-            <p>From an initial idea to a fully operational facility, we’re ready.</p>
+            <h2>Let's build the future of energy together.</h2>
+            <p>20 years of collective experience. One indigenous team ready to deliver.</p>
           </div>
           <Button asChild variant="navyOutline">
-            <a href="/contact#quote">
+            <Link to="/contact" hash="quote">
               Request a quote
               <ArrowUpRight />
-            </a>
+            </Link>
           </Button>
         </div>
       </section>
@@ -252,40 +338,18 @@ export function Layout({ children }: { children: ReactNode }) {
             <div>
               <Wordmark />
               <p>
-                Rain Energy Ltd is a fully indigenous Nigerian oil and gas servicing company. 100%
-                Nigerian-owned and powered by skilled indigenous professionals with 20+ years of
-                founding-team experience across the entire energy value chain.
+                {company.whoWeAre[0]} Built on 20+ years of founding-team experience across the
+                entire energy value chain.
               </p>
-              <div className="socials">
-                <a
-                  href="https://www.linkedin.com/"
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="LinkedIn"
-                >
-                  <Linkedin />
-                </a>
-                <a href="https://x.com/" target="_blank" rel="noreferrer" aria-label="X">
-                  <X />
-                </a>
-                <a
-                  href="https://www.facebook.com/"
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="Facebook"
-                >
-                  <Facebook />
-                </a>
-              </div>
             </div>
             <div>
               <h3>Explore</h3>
               <ul>
                 {nav
-                  .filter((n) => n[1] !== "/")
-                  .map(([label, path]) => (
-                    <li key={path}>
-                      <a href={path}>{label}</a>
+                  .filter((n) => n.to !== "/")
+                  .map((n) => (
+                    <li key={n.to}>
+                      <Link to={n.to}>{n.label}</Link>
                     </li>
                   ))}
               </ul>
@@ -295,7 +359,9 @@ export function Layout({ children }: { children: ReactNode }) {
               <ul>
                 {services.map((s) => (
                   <li key={s.slug}>
-                    <a href={`/service?s=${s.slug}`}>{s.name}</a>
+                    <Link to="/services/$slug" params={{ slug: s.slug }}>
+                      {s.name}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -305,28 +371,26 @@ export function Layout({ children }: { children: ReactNode }) {
               <ul>
                 <li>No. 1 Oba Sijuade Okunade Crescent,</li>
                 <li>Chevy View Estate, Lekki, Lagos</li>
+                {company.phones.map((p) => (
+                  <li key={p.tel}>
+                    <a href={`tel:${p.tel}`}>{p.display}</a>
+                  </li>
+                ))}
                 <li>
-                  <a href="tel:+2348057699215">080 5769 9215</a>
+                  <a href={`mailto:${company.email}`}>{company.email}</a>
                 </li>
-                <li>
-                  <a href="tel:+2348037414562">080 3741 4562</a>
-                </li>
-                <li>
-                  <a href="mailto:info@rainenergy.ng">info@rainenergy.ng</a>
-                </li>
-                <li>Monday – Friday, 8am – 5pm</li>
               </ul>
             </div>
           </div>
           <div className="footer-bottom">
             <span>© 2026 Rain Energy Limited. All rights reserved.</span>
-            <span>Indigenous Excellence in Oil & Gas Services • West Africa</span>
+            <span>{company.tagline} • West Africa</span>
           </div>
         </div>
       </footer>
       <a
         className="whatsapp"
-        href="https://wa.me/2348057699215"
+        href={`https://wa.me/${primaryPhone.tel.replace("+", "")}`}
         target="_blank"
         rel="noreferrer"
         aria-label="Chat with Rain Energy on WhatsApp"
@@ -337,16 +401,19 @@ export function Layout({ children }: { children: ReactNode }) {
     </>
   );
 }
+
 export function PageHero({
   title,
   description,
-  category,
-  image = images.plant,
+  crumbs = [],
+  image = images.refinery,
+  alt = "",
 }: {
   title: string;
   description?: string;
-  category?: string;
+  crumbs?: { label: string; to: string }[];
   image?: string;
+  alt?: string;
 }) {
   return (
     <section className="page-hero">
@@ -355,19 +422,21 @@ export function PageHero({
         width={1920}
         height={1024}
         className="hero-photo"
-        alt="Rain Energy industrial engineering infrastructure"
+        alt={alt}
+        fetchPriority="high"
       />
+      <Stripes className="stripes-hero" />
       <div className="container reveal">
         <div className="breadcrumb">
-          <a href="/">Home</a>
-          <ChevronRight />
-          {category && (
-            <>
-              <a href={`/${category.toLowerCase()}`}>{category}</a>
+          <Link to="/">Home</Link>
+          {crumbs.map((c) => (
+            <span key={c.to} className="crumb">
               <ChevronRight />
-            </>
-          )}
-          <span>{title}</span>
+              <Link to={c.to}>{c.label}</Link>
+            </span>
+          ))}
+          <ChevronRight />
+          <span aria-current="page">{title}</span>
         </div>
         <h1>{title}</h1>
         {description && <p>{description}</p>}
@@ -375,244 +444,88 @@ export function PageHero({
     </section>
   );
 }
+
 export function SectionHeading({
   eyebrow,
   title,
   description,
-  href,
-  link,
 }: {
   eyebrow: string;
   title: string;
   description?: string;
-  href?: string;
-  link?: string;
 }) {
   return (
-    <div className="section-heading">
+    <Reveal className="section-heading">
       <div>
         <div className="eyebrow">{eyebrow}</div>
         <h2>{title}</h2>
       </div>
-      {href ? (
-        <a href={href} className="text-link">
-          {link}
-          <ArrowUpRight />
-        </a>
-      ) : description ? (
-        <p>{description}</p>
-      ) : null}
-    </div>
+      {description ? <p>{description}</p> : null}
+    </Reveal>
   );
 }
+
 export function ServicesGrid() {
   return (
     <div className="services-grid">
       {services.map((s, i) => {
-        const Icon = iconMap[s.icon as keyof typeof iconMap];
+        const Icon = iconMap[s.slug] ?? Wrench;
         return (
-          <a className="service-card" href={`/service?s=${s.slug}`} key={s.slug}>
-            <Icon className="service-icon" strokeWidth={1.4} />
-            <span className="card-number">0{i + 1}</span>
-            <h3>{s.name}</h3>
-            <p>{s.description}</p>
-            <span className="text-link">
-              Learn more
-              <ArrowUpRight />
-            </span>
-          </a>
+          <Reveal key={s.slug} delay={(i % 3) * 80}>
+            <Link className="service-card" to="/services/$slug" params={{ slug: s.slug }}>
+              <Icon className="service-icon" strokeWidth={1.4} />
+              <span className="card-number">0{i + 1}</span>
+              <h3>{s.name}</h3>
+              <p>{s.short}</p>
+              <span className="text-link">
+                Learn more
+                <ArrowUpRight />
+              </span>
+            </Link>
+          </Reveal>
         );
       })}
     </div>
   );
 }
-export function ProjectCards({ items = projects }: { items?: typeof projects }) {
-  return (
-    <div className="project-grid">
-      {items.map((p) => (
-        <a href={`/project?p=${p.slug}`} className="project-card" key={p.slug}>
-          <div className="project-image">
-            <img src={p.image} alt={p.title} width={1536} height={1024} loading="lazy" />
-            <span className="sample-tag">Sample project</span>
-          </div>
-          <div className="card-body">
-            <div className="category">{services.find((s) => s.slug === p.service)?.name}</div>
-            <h3>{p.title}</h3>
-            <div className="card-bottom">
-              <span>
-                <MapPin />
-                {p.location} · {p.year}
-              </span>
-              <ArrowUpRight />
-            </div>
-          </div>
-        </a>
-      ))}
-    </div>
-  );
-}
-export function NewsCards({ items = news }: { items?: typeof news }) {
-  return (
-    <div className="news-grid">
-      {items.map((n) => (
-        <a href={`/article?n=${n.slug}`} className="news-card" key={n.slug}>
-          <img src={n.image} alt={n.title} width={1536} height={1024} loading="lazy" />
-          <div className="card-body">
-            <div className="date">
-              {n.date}
-              <span className="sample-tag">Sample</span>
-            </div>
-            <h3>{n.title}</h3>
-            <p>{n.summary}</p>
-            <span className="text-link">
-              Read article
-              <ArrowUpRight />
-            </span>
-          </div>
-        </a>
-      ))}
-    </div>
-  );
-}
-export function Stats() {
-  const [animate, setAnimate] = useState(false);
-  const [progress, setProgress] = useState(1);
-  useEffect(() => {
-    const el = document.getElementById("delivery-stats");
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry?.isIntersecting) {
-          setAnimate(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.2 },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-  useEffect(() => {
-    if (!animate || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    let frame = 0;
-    const start = performance.now();
-    const tick = (now: number) => {
-      const p = Math.min((now - start) / 900, 1);
-      setProgress(1 - Math.pow(1 - p, 3));
-      if (p < 1) frame = requestAnimationFrame(tick);
-    };
-    frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
-  }, [animate]);
-  return (
-    <section className="stats" id="delivery-stats" aria-label="Sample company figures">
-      <div className="container stats-grid">
-        {stats.map((s) => (
-          <div className="stat" key={s.label}>
-            <strong>
-              {Math.round(s.value * progress)}
-              <span>{s.suffix}</span>
-            </strong>
-            <p>{s.label}</p>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-export const why = [
-  {
-    icon: Users,
-    title: "Indigenous expertise",
-    text: "Local knowledge. A skilled, 100% Nigerian workforce.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Safety in every phase",
-    text: "People, assets and the environment come first.",
-  },
-  {
-    icon: Layers,
-    title: "End-to-end delivery",
-    text: "One partner from design through to commissioning.",
-  },
-  {
-    icon: Clock,
-    title: "Responsive execution",
-    text: "Clear communication and a focus on on-time delivery.",
-  },
-];
+
 export function NotFound({
   kind = "page",
-  href = "/",
+  to = "/",
   label = "Back to home",
 }: {
   kind?: string;
-  href?: string;
+  to?: string;
   label?: string;
 }) {
   return (
     <Layout>
       <section className="not-found container">
         <strong>404</strong>
-        <h1>This {kind} couldn’t be found.</h1>
+        <h1>This {kind} couldn't be found.</h1>
         <p>The link may be incomplete, or the {kind} is no longer available.</p>
         <Button asChild variant="gold">
-          <a href={href}>
+          <Link to={to}>
             {label}
             <ArrowRight />
-          </a>
+          </Link>
         </Button>
       </section>
     </Layout>
   );
 }
+
 export function ComplianceGrid() {
   return (
     <div className="compliance-grid">
-      {company.compliance.map((c) => (
-        <div className="compliance-card" key={c.code}>
-          <div>
-            <div className="compliance-badge">{c.code}</div>
-            <div className="compliance-val">{c.value}</div>
-          </div>
-          <div className="compliance-desc">
-            <strong className="text-navy">{c.title}</strong>
-            <div>{c.status}</div>
-          </div>
-        </div>
+      {company.compliance.map((c, i) => (
+        <Reveal className="compliance-card" key={c.code} delay={i * 60}>
+          <div className="compliance-badge">{c.code}</div>
+          <div className="compliance-val">{c.value}</div>
+        </Reveal>
       ))}
     </div>
   );
 }
 
-export function HseFrameworkGrid() {
-  return (
-    <div className="hse-framework-grid">
-      {company.hseFramework.map((item) => (
-        <div className="hse-framework-card" key={item.code}>
-          <span className="hse-step-pill">{item.code}</span>
-          <h4 className="hse-step-title">{item.title}</h4>
-          <p className="hse-step-desc">{item.desc}</p>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-export {
-  ArrowUpRight,
-  ArrowRight,
-  ShieldCheck,
-  CheckCircle2,
-  Users,
-  Clock,
-  Layers,
-  Leaf,
-  Award,
-  FileCheck2,
-  Phone,
-  Mail,
-  MapPin,
-  company,
-};
+export { serviceHref, ArrowUpRight, ArrowRight, Phone, Mail, MapPin, company };

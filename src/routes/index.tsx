@@ -4,8 +4,8 @@ import { pageHead } from "@/data/content";
 export const Route = createFileRoute("/")({
   head: () =>
     pageHead(
-      "Engineering, procurement and construction",
-      "Indigenous expertise delivering upstream and downstream engineering, procurement and construction projects across Nigeria.",
+      "Indigenous Excellence in Oil & Gas Services",
+      "Rain Energy is a 100% Nigerian-owned oil and gas servicing company: EPIC&C, pipeline works, civil and structural, E&I, fabrication and LPG / CNG distribution.",
       "/",
     ),
   component: HomePage,
